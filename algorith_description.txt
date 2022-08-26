@@ -189,8 +189,8 @@ I.
         
     unknown: 
         getListOfAllowedSymbols,  // DONE
-        getNotConnectedCardsWithAllowedSymbol
-        getFirstNotConnectedCard
+        getNotConnectedCardsWithAllowedSymbol // DONE
+        getFirstNotConnectedCard // DoNE
 
 
     functions:
@@ -210,6 +210,34 @@ I.
                 if (listOfAllConnectedSymbols.find(symbol)) acc.push(symbol);
                 return acc;
             }, [])
+        }
+        substract = (minuedArr, substrahendArr) => minuedArr.reduce((acc, item) => {
+            if (substrahendArr.find(i => i === item) === undefined) acc.push(item);
+            return acc;
+        }, acc)
+        isCardConnected = (card, addedCard) => addedCard.reduce((acc, symbol) => {
+            if (card.find(s => s === symbol) !== undefined) acc = true;
+            return acc;
+        }, false)
+        getNotConnectedCardsWithAllowedSymbol = (solution, addedCard, nrOfSymbolsOnACard) => {
+                const listOfAllowedSymbol = getListOfAllowedSymbols(getAllSymbols(nrOfSymbolsOnACard), getConnectedCards(solution, addedCard))
+                solution.filter((card) => {
+                // if (isCardConnected(card, addedCard)) return false; // NOT NEEDED, card having an allowed symbol will be not connected
+                return card.reduce((acc, symbol) => {
+                    if (listOfAllConnectedSymbols.find(s => s === symbol)) acc = true;
+                    return acc;
+                }, false)
+            }
+        })
+        getFirstNotConnectedCardIndex = (solution, addedCard) => {
+            solution.findIndex(card => !card.reduce((acc, symbol) => {
+                if (addedCard.find(addedSymbol => addedSymbol === symbol)) acc = true;
+                reutrn acc;
+            }, false))
+        }
+        getFirstNotConnectedCard = (solution, addedCard) => {
+            const firstNotConnectedCardIndex = getFirstNotConnectedCardIndex(solution, addedCard);
+            return firstNotConnectedCardIndex === -1 ? undefined : firstNotConnectedCardIndex;
         }
 
 
