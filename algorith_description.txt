@@ -1,0 +1,217 @@
+I. General
+data: 
+    nrOfSymbolsOnACard;
+
+algorithm:
+    let currentNrOfSymbolsOnACard = 2;
+    const basicSolution = [
+        [1, 3],
+        [1, 2],
+        [3, 2],
+    ]
+    let currentSolution = basicSolution;
+    do {
+        currentSolution = findNextSolution(currentSolution);
+    } while(countSymbolsOnCardFromSolution(currentSolution) > nrOfSymbolsOnACard)
+
+unknown:
+    countSymbolsOnCardFromSolution(currentSolution);
+    findNextSolution(currentSolution)
+
+
+===============================================================================================
+
+II.
+data: 
+    nrOfSymbolsOnACard;
+
+functions:
+    const countSymbolsOnCardFromSolution = (currentSolution) => {
+        if (!Array.isArray(currentSolution)) throw new Error('countSymbolsOnCardFromSolution: currentSolution is not an array')
+        if (currentSolution.length === 0) return 0;
+        if (!Array.isArray(currentSolution[0])) throw new Error('countSymbolsOnCardFromSolution: a element of currentSolution is not an array') ;
+        return currentSolution[0].length;
+    }
+
+    const findNextSolution = (currentSolution) => {
+        // This needs a separate algorithm
+    }
+
+algorithm:
+    let currentNrOfSymbolsOnACard = 2;
+    const basicSolution = [
+        [1, 3],
+        [1, 2],
+        [3, 2],
+    ]
+    let currentSolution = basicSolution;
+    do {
+        currentSolution = findNextSolution(currentSolution);
+    } while(countSymbolsOnCardFromSolution(currentSolution) > nrOfSymbolsOnACard)
+
+unknown:
+    countSymbolsOnCardFromSolution(currentSolution);
+    findNextSolution(currentSolution)
+
+==============================================================================================
+
+findNextSolution algorithm:
+
+ready functions to use:
+    countSymbolsOnCardFromSolution(currentSolution)
+    getNrOfSymbols(nrOfSymbolsOnCard)
+    getNrOfCards(nrOfSymbolsOnCard)
+    getArrayOfNull(nrOfElements)
+    nextSymbolGenerator*(nrOfSymbolsToGenerate)
+
+I.
+    data: currentSolution;
+
+    import:
+        isSolutionValid from functions/solutionValidator.js
+
+
+    functions: 
+        const getNrOfSymbols = nrOfSymbolsOnCard => nrOfSymbolsOnCard * (nrOfSymbolsOnCard - 1) + 1;
+        const getNrOfCards   = nrOfSymbolsOnACard => nrOfSymbolsOnCard * (nrOfSymbolsOnCard - 1) + 1;
+        const getArrayOfNull = nrOfElements = new Array(nrOfElements).map(element => null);
+        const nextSymbolGenerator = *(nrOfSymbolsToGenerate) => {
+            const symbols = getArrayOfNull(nrOfSymbolsToGenerate).map( (_, index) => index);
+            yield* symbols;
+        }
+
+    algorithm:
+        nextSolution = currentSolution;
+        const nrOfSymbolsOnCardNextSolution = countSymbolsOnCardFromSolution(currentSolution) + 1
+        const cardStartSymbolGenerator = new nextSymbolGenerator(nrOfSymbolsOnCardNextSolution);
+
+        do {
+            const currentlyAddedCard = [cardStartSymbolGenerator.next()];  // start with first symbol
+            const createNewConnectedCardForSolution(currentlyAddedCard, nextSolution);
+        } while (!isSolutionValid(nextSolution) || !countSymbolsOnCardFromSolution(nextSolution) === nrOfSymbolsOnCardNextSolution)
+
+    unknown:
+        createNewConnectedCardForSolution(currentlyAddedCard, nextSolution);
+
+
+==================================================================================================
+
+createNewConnectedCardForSolution algorithm:
+
+    ready functions to use:
+        countSymbolsOnCardFromSolution(currentSolution)
+        getNrOfSymbols(nrOfSymbolsOnCard)
+        getNrOfCards(nrOfSymbolsOnCard)
+        getArrayOfNull(nrOfElements)
+        nextSymbolGenerator*(nrOfSymbolsToGenerate)
+
+I.
+    data:
+        addedCard,
+        currentSolution,
+
+    algorithm:
+        while (!allCardsAreConnectedToAddedCard(solution, addedCard)) {
+            connectCard(currentSolution, addedCard); // single
+        }
+
+    unknown: 
+        allCardsAreConnectedToAddedCard
+        getFirstNotConnectedCard
+        connectCard
+
+        
+
+functions: 
+    const arrCp = arr => arr.map(i => i);
+    const xor = (arr1, arr2) => {
+        if (arr1.length === 0) return arrCp(arr2);
+        if (arr2.length === 0) return arrCp(arr1);
+        return arr1.reduce((acc, item) => {
+            const isItemInBothArrays = arr2.find(i => item === i) === undefined ? false : true;
+            if (!isItemInBothArrays) acc.push(item);
+            return acc;
+        }, [])  // TEST THIS FUNCTION WELL
+    }
+    const allCardsAreConnectedToAddedCard = (solution, card) => {
+        return solution.reduce((acc, solutionCard) => {
+            if (xor(solutionCard, card).length !== 1) acc = false;
+            reutrn acc;
+        }, true)
+    }
+    const getFirstNotConnectedCard = (solution, card, index) => {
+        // if -1 returned, all cards connected
+        return solution.reduce((acc, solutionCard) => {
+            if ((xor(solutionCard, card).length === 0) && (acc === -1)) acc = index;
+            reutrn acc;
+        }, -1)        
+    }
+
+
+
+    ==================================================================================================
+
+connectCard algorithm:
+// Restricted symbols are symbols that are in already connected cards and in added card
+
+    ready functions to use:
+        countSymbolsOnCardFromSolution(currentSolution)
+        getNrOfSymbols(nrOfSymbolsOnCard)
+        getNrOfCards(nrOfSymbolsOnCard)
+        getArrayOfNull(nrOfElements)
+        nextSymbolGenerator*(nrOfSymbolsToGenerate)
+        arrCp,
+        xor, // test it 
+        allCardsAreConnectedToAddedCard,
+        getFirstNotConnectedCard,
+
+
+I.
+    data:
+        addedCard, // with first symbol added
+        currentSolution,
+
+    algorithm:
+        const listOfAllowedSymbols = getListOfAllowedSymbols(solution, addedCard);
+        if (listOfAllowedSymbols.length === 0) throw new Error('connectCard: no symbols left');
+        const notConnectedCardsWithAllowedSymbol = getNotConnectedCarsWithAllowedSymbol(solution, listOfAllowedSymbols);
+        if (notConnectedCardsWithAllowedSymbol.length > 0) {
+            const targetCard = notConnectedCardsWithAllowedSymbol[0];
+            const allowedSymbol = and(listOfAllowedSymbols, targetCard);
+            addedCard.push(symbol);
+            return;
+        }
+        const cardToConnectIndex = getFirstNotConnectedCard(solution, addedCard);
+        const connectorSymbol = listOfAllowedSymbols[0];
+        solution[cardToConnectIndex].push(connectorSymbol);
+        addedCard.push(connectorSymbol);
+
+        
+    unknown: 
+        getListOfAllowedSymbols,  // DONE
+        getNotConnectedCardsWithAllowedSymbol
+        getFirstNotConnectedCard
+
+
+    functions:
+        const and = (arr1, arr2) => {
+            if (arr1.length === 0 || arr2.length === 0) return [];
+            reduce((acc, item) => {
+                if (arr2.find(item)) acc.push(item);
+                return acc;
+            }, [])
+        }  // test well
+
+        getConnectedCards = (solution, addedCard) => solution.filter((card) => { xor(card, addedCard).length === 1 })
+        getAllSymbols = (nrOfSymbolsOnACard) => getArrayOfNull(getNrOfSymbols(nrOfSymbolsOnCard)).map( (_, index) => index);
+        getListOfAllowedSymbols = (allSymbols, connectedCards) => {
+            const listOfAllConnectedSymbols = connectCards.flat();
+            allSymbols.reduce((acc, symbol) => {
+                if (listOfAllConnectedSymbols.find(symbol)) acc.push(symbol);
+                return acc;
+            }, [])
+        }
+
+
+        
+
