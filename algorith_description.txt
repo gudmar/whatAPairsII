@@ -241,5 +241,29 @@ I.
         }
 
 
+
+
+List of functions:
+        countSymbolsOnCardFromSolution(currentSolution)
+        getNrOfSymbols(nrOfSymbolsOnCard)
+        getNrOfCards(nrOfSymbolsOnCard)
+        getArrayOfNull(nrOfElements)
+        nextSymbolGenerator*(nrOfSymbolsToGenerate)
+        arrCp,
+        xor, // test it 
+        allCardsAreConnectedToAddedCard,
+        getFirstNotConnectedCard,
+        and
+        substract // not used
+        getConnectedCards
+        getAllSymbols
+        getListOfAllowedSymbols
+        getNotConnectedCardsWithAllowedSymbol = (solution, addedCard, nrOfSymbolsOnACard) => {
+        getFirstNotConnectedCardIndex = (solution, addedCard) => {
+        getFirstNotConnectedCard 
+
+
+
+
         
 
