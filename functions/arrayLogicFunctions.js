@@ -12,15 +12,31 @@ const and = (arr1, arr2) => {
     }, [])
 }
 
+const removeSubarrayFromArray = (arr, subarr) => {
+    return subarr.reduce((acc, item) => {
+        const index = acc.findIndex(i => i === item);
+        if (index >= 0) acc.splice(index, 1);
+        return acc
+    }, arr)
+}
+
 const xor = (arr1, arr2) => {
     if (arr1.length === 0) return arrCp(arr2);
     if (arr2.length === 0) return arrCp(arr1);
-    return arr1.reduce((acc, item) => {
-        const isItemInBothArrays = arr2.find(i => item === i) === undefined ? false : true;
-        if (!isItemInBothArrays) acc.push(item);
-        return acc;
-    }, [])  // TEST THIS FUNCTION WELL
+    const conjunction = and(arr1, arr2);
+    const alternative = [...arr1, ...arr2];
+    return removeSubarrayFromArray(alternative, [...conjunction,...conjunction])
 }
+
+// const xor = (arr1, arr2) => {
+//     if (arr1.length === 0) return arrCp(arr2);
+//     if (arr2.length === 0) return arrCp(arr1);
+//     return arr1.reduce((acc, item) => {
+//         const isItemInBothArrays = arr2.find(i => item === i) === undefined ? false : true;
+//         if (!isItemInBothArrays) acc.push(item);
+//         return acc;
+//     }, [])  // TEST THIS FUNCTION WELL
+// }
 
 // module.exports = { xor };
 export { and, xor }
