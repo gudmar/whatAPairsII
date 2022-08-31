@@ -244,16 +244,16 @@ I.
 
 
 List of functions:
-        countSymbolsOnCardFromSolution(currentSolution)
-        getNrOfSymbols(nrOfSymbolsOnCard)
-        getNrOfCards(nrOfSymbolsOnCard)
-        getArrayOfNull(nrOfElements)
+     ok   countSymbolsOnCardFromSolution(currentSolution)
+     ok   getNrOfSymbols(nrOfSymbolsOnCard)
+     ok   getNrOfCards(nrOfSymbolsOnCard)
+     ok   getArrayOfNull(nrOfElements)
         nextSymbolGenerator*(nrOfSymbolsToGenerate)
-        arrCp,
-        xor, // test it 
+     ok   arrCp,
+     ok   xor, // test it 
         allCardsAreConnectedToAddedCard,
         getFirstNotConnectedCard,
-        and
+     ok   and
         substract // not used
         getConnectedCards
         getAllSymbols

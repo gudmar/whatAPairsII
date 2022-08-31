@@ -1,5 +1,5 @@
 // import { describe } from "node:test";
-import { xor, and } from "../arrayLogicFunctions.js";
+import { xor, and, getArrayOfNull } from "../arrayLogicFunctions.js";
 import { toHaveTheSameElements } from "../../testMatchers.js"
 // const { xor } = require('../arrayLogicFunctions.js');
 
@@ -67,3 +67,10 @@ describe('Testing xor from arrayLogicFunctions', () => {
         expect(xor(arr1, arr2)).toEqual([1, 3, 5])
     })
 });
+
+describe('Testing getArrayOfNull function', () => {
+    it ('Should return an array of null elemnets', () => {
+        const result = [null, null, null, null, null];
+        expect(getArrayOfNull(5)).toEqual(result)
+    })
+})
