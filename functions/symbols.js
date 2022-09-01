@@ -19,9 +19,9 @@ const nextSymbolGetter = nrOfSymbolsToGenerate => {
 const getAllSymbols = (nrOfSymbolsOnCard) => getArrayOfNull(getNrOfSymbols(nrOfSymbolsOnCard)).map( (_, index) => index);
 
 const getListOfAllowedSymbols = (allSymbols, connectedCards) => {
-    const listOfAllConnectedSymbols = connectCards.flat();
-    allSymbols.reduce((acc, symbol) => {
-        if (listOfAllConnectedSymbols.find(symbol)) acc.push(symbol);
+    const listOfAllConnectedSymbols = connectedCards.flat();
+    return allSymbols.reduce((acc, symbol) => {
+        if (listOfAllConnectedSymbols.find(s => s === symbol)) acc.push(symbol);
         return acc;
     }, [])
 }

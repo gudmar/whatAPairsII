@@ -30,3 +30,37 @@ describe('symbols.getAllSymbols test', () => {
     })
 })
 
+describe('symbols.getListOfAllowedSymbols', () => {
+    it('Should return allowed symbols ', () => {
+        const allSymbols = [
+            0,1,2,3,4,5,6
+        ];
+        const solution = [
+            [0, 2, 4],
+            [0, 1],
+            [2, 1, 3],
+            [0, 3, 5],
+            [1, 4, 5],
+            [2]
+        ];
+        const connectedCards = [
+            [0, 2, 4],
+            [2, 1, 3],
+        ];
+        const allowedSymbols = [5, 6];
+        expect(getListOfAllowedSymbols(allSymbols, connectedCards)).toEqual(allowedSymbols)
+    })
+})
+
+// [0, 2, 4],
+// [0, 1],
+// [2, 1, 3],
+// [0, 3, 5],
+// [1, 4, 5],
+// [2]
+// Connected cards: 
+// [0, 2]
+// restricted symbols:
+// [0, 1, 2, 3, 4]
+// allowedSymbols = [5, 6]
+

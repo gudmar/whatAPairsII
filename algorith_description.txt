@@ -252,11 +252,11 @@ List of functions:
      ok   arrCp,
      ok   xor, // test it 
      ok   allCardsAreConnectedToAddedCard,
-        getFirstNotConnectedCard,
+     ok   getFirstNotConnectedCard,
      ok   and
         substract // not used
-        getConnectedCards
-        getAllSymbols
+     ok   getConnectedCards
+     ok   getAllSymbols
         getListOfAllowedSymbols
         getNotConnectedCardsWithAllowedSymbol = (solution, addedCard, nrOfSymbolsOnACard) => {
         getFirstNotConnectedCardIndex = (solution, addedCard) => {
