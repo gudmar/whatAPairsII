@@ -248,10 +248,10 @@ List of functions:
      ok   getNrOfSymbols(nrOfSymbolsOnCard)
      ok   getNrOfCards(nrOfSymbolsOnCard)
      ok   getArrayOfNull(nrOfElements)
-        nextSymbolGenerator*(nrOfSymbolsToGenerate)
+     ok   nextSymbolGenerator*(nrOfSymbolsToGenerate)
      ok   arrCp,
      ok   xor, // test it 
-        allCardsAreConnectedToAddedCard,
+     ok   allCardsAreConnectedToAddedCard,
         getFirstNotConnectedCard,
      ok   and
         substract // not used

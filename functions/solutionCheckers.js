@@ -1,11 +1,7 @@
-const errorMessages = {
-    EMPTY_ARG: 'allArraysSomeSize: an empty array passed',
-    NOT_ARR: 'allArraysSomeSize: arg is not an array',
-    NOT_EVERY_ITEM_ARRAY: 'allArraysSomeSize: Not every item in array of arrays is an array.',
-    SOLUTION_NOT_ARRAY: 'countSymbolsOnCardFromSolution: readySolution is not an array',
-    ARR_ITEM_NOT_ARRAY: 'countSymbolsOnCardFromSolution: a element of readySolution is not an array',
-    DIFFERENT_NR_ELEMENTS: 'countSymbolsOnCardsFromSolution: solution has different number of symbols on some cards',
-}
+import { and } from './arrayLogicFunctions.js';
+import { errorMessages, getErrorInCaseArrayOfArraysTypeMismatch } from './errors.js'
+
+
 
 const allArraysSameSize = arrOfArrays => {
     if (!Array.isArray(arrOfArrays)) throw new Error(errorMessages.NOT_ARR);
@@ -22,4 +18,15 @@ const countSymbolsOnCardOnReadySolution = (readySolution) => {
     return readySolution[0].length;
 }
 
-export { errorMessages, allArraysSameSize, countSymbolsOnCardOnReadySolution }
+const allCardsAreConnectedToAddedCard = (solution, card) => {
+    const err = getErrorInCaseArrayOfArraysTypeMismatch(solution);
+    if (err) throw err;
+    return solution.reduce((acc, solutionCard) => {
+        const commonElementsNumber = and(solutionCard, card).length;
+        if (commonElementsNumber > 1) throw new Error(errorMessages.TOO_MANY_SYMBOLS_REPEAT)
+        if (commonElementsNumber !== 1) acc = false;
+        return acc;
+    }, true)
+}
+
+export { errorMessages, allArraysSameSize, countSymbolsOnCardOnReadySolution, allCardsAreConnectedToAddedCard }
