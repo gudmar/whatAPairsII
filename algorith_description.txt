@@ -257,7 +257,7 @@ List of functions:
         substract // not used
      ok   getConnectedCards
      ok   getAllSymbols
-        getListOfAllowedSymbols
+     ok   getListOfAllowedSymbols
         getNotConnectedCardsWithAllowedSymbol = (solution, addedCard, nrOfSymbolsOnACard) => {
         getFirstNotConnectedCardIndex = (solution, addedCard) => {
         getFirstNotConnectedCard 

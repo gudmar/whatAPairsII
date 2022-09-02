@@ -1,6 +1,6 @@
 import { errorMessages } from '../errors.js'
 import { toHaveTheSameElements } from "../../testMatchers.js"
-import { getFirstNotConnectedCardIndex, getConnectedCards } from '../solution.js'
+import { getFirstNotConnectedCardIndex, getConnectedCards, getNotConnectedCardsWithAllowedSymbol } from '../solution.js'
 // const { xor } = require('../arrayLogicFunctions.js');
 
 expect.extend({toHaveTheSameElements})
@@ -53,8 +53,21 @@ describe('Testing solution: getConnectedCards', () => {
     })
 })
 
-describe('Testing solution: getAllSymbols', () => {
-    it('Should return symbols 0 to 3 in case nrOfSymbolsOnCard is 2', () => {
-
+describe('Testing solution: getNotConnectedCardsWithAllowedSymbol', () => {
+    it('Should return found cards in case some cards are not connected and have allowed symbols', () => {
+        const nrOfSymbolsOnACard = 3;
+        const addedCard = [1, 2];
+        const solution = [
+            [0, 3, 2],
+            [1, 3, 5],
+            [4, 1],
+            [6, 7, 8]
+        ];
+        // const connected cards = 1, 2, 3
+        // const restrictedSymbols = [0, 1, 2, 3, 4, 5], as those symbols are on cards connected to our card
+        const expectedResult = [
+            [6, 7, 8]
+        ]
+        expect(getNotConnectedCardsWithAllowedSymbol(solution, addedCard, nrOfSymbolsOnACard)).toEqual(expectedResult)
     })
 })
