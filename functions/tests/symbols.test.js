@@ -31,7 +31,7 @@ describe('symbols.getAllSymbols test', () => {
 })
 
 describe('symbols.getListOfAllowedSymbols', () => {
-    it('Should return allowed symbols ', () => {
+    it('Should return allowed symbols [5, 6]', () => {
         const allSymbols = [
             0,1,2,3,4,5,6
         ];
@@ -50,17 +50,52 @@ describe('symbols.getListOfAllowedSymbols', () => {
         const allowedSymbols = [5, 6];
         expect(getListOfAllowedSymbols(allSymbols, connectedCards)).toEqual(allowedSymbols)
     })
+    it('Should return allowed symbols [7..20]', () => {
+        const allSymbols = [0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+        const solution = [
+            [0, 2, 4],
+            [0, 1, 6],
+            [2, 1, 3],
+            [0, 3, 5],
+            [1, 4, 5],
+        ];
+        // const addedCard = [3, 6, 7]
+        // const connectedCardIndexes = [1,2,3,4,5]
+        // const restirctedSymbols = [0, 1, 2, 3, 4, 5]
+        const connectedCards = [
+            [0, 2, 4],
+            [0, 1, 6],
+            [2, 1, 3],
+            [0, 3, 5],
+            [1, 4, 5],
+        ]
+        const allowedSymbols = [7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+        expect(getListOfAllowedSymbols(allSymbols, connectedCards)).toEqual(allowedSymbols)
+    })
+    it('Should return an empty array in case all allowed symbols are connected', () => {
+        const allSymbols = [0, 1, 2, 3, 4, 5, 6];
+        const solution = [
+            [0, 2, 4],
+            [0, 1, 6],
+            [2, 1, 3],
+            [0, 3, 5],
+            [1, 4, 5],
+            [2, 5, 6],
+            
+        ];
+        // const addedCard = [3, 4, 6],
+        // const connectedCardIndexes = [0,1,2,3,4,5,6]
+        // const restirctedSymbols = [0..6]
+        const connectedCards = [
+            [0, 2, 4],
+            [0, 1, 6],
+            [2, 1, 3],
+            [0, 3, 5],
+            [1, 4, 5],
+            [2, 5, 6],
+        ]
+        const allowedSymbols = [];
+        expect(getListOfAllowedSymbols(allSymbols, connectedCards)).toEqual(allowedSymbols)
+    })
+
 })
-
-// [0, 2, 4],
-// [0, 1],
-// [2, 1, 3],
-// [0, 3, 5],
-// [1, 4, 5],
-// [2]
-// Connected cards: 
-// [0, 2]
-// restricted symbols:
-// [0, 1, 2, 3, 4]
-// allowedSymbols = [5, 6]
-

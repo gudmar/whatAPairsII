@@ -1,5 +1,5 @@
 
-import { getArrayOfNull } from './arrayLogicFunctions.js'
+import { getArrayOfNull, xor } from './arrayLogicFunctions.js'
 import { getNrOfSymbols } from './calculation.js'
 
 function *nextSymbolGenerator(nrOfSymbolsToGenerate) {
@@ -18,12 +18,18 @@ const nextSymbolGetter = nrOfSymbolsToGenerate => {
 
 const getAllSymbols = (nrOfSymbolsOnCard) => getArrayOfNull(getNrOfSymbols(nrOfSymbolsOnCard)).map( (_, index) => index);
 
-const getListOfAllowedSymbols = (allSymbols, connectedCards) => {
-    const listOfAllConnectedSymbols = connectedCards.flat();
-    return allSymbols.reduce((acc, symbol) => {
-        if (listOfAllConnectedSymbols.find(s => s === symbol)) acc.push(symbol);
+const getListOfNotRepeatingElements = (arr) => arr.reduce(
+    (acc, item) => {
+        if (acc.find(i => i === item) === undefined) acc.push(item);
         return acc;
-    }, [])
+    }, []
+)
+
+const getListOfRestrictedSymbols = (connectedCards) => 
+    getListOfNotRepeatingElements(connectedCards.flat());
+
+const getListOfAllowedSymbols = (allSymbols, connectedCards) => {
+    return xor(getListOfRestrictedSymbols(connectedCards), allSymbols);
 }
 
 export { 
