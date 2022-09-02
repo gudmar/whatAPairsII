@@ -1,6 +1,7 @@
 import { and, xor } from './arrayLogicFunctions.js'
 import { errorMessages, getErrorInCaseArrayOfArraysTypeMismatch } from './errors.js'
 import { getArrayOfNull } from './arrayLogicFunctions.js';
+import { getListOfAllowedSymbols, getAllSymbols } from './symbols.js'
 
 const getFirstNotConnectedCardIndex = (solution, card) => {
     // if -1 returned, all cards connected
@@ -14,5 +15,15 @@ const getFirstNotConnectedCardIndex = (solution, card) => {
 
 const getConnectedCards = (solution, addedCard) => solution.filter((card) => and(card, addedCard).length === 1 );
 
+const getNotConnectedCardsWithAllowedSymbol = (solution, addedCard, nrOfSymbolsOnACard) => {
+    const listOfAllowedSymbol = getListOfAllowedSymbols(getAllSymbols(nrOfSymbolsOnACard), getConnectedCards(solution, addedCard))
+    return solution.filter((card) => {
+    // // if (isCardConnected(card, addedCard)) return false; // NOT NEEDED, card having an allowed symbol will be not connected
+        return card.reduce((acc, symbol) => {
+            if (listOfAllowedSymbol.find(s => s === symbol)) acc = true;
+            return acc;
+        }, false)
+    })
+}
 
-export { getFirstNotConnectedCardIndex, getConnectedCards, }
+export { getFirstNotConnectedCardIndex, getConnectedCards, getNotConnectedCardsWithAllowedSymbol }
