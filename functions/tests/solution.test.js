@@ -1,6 +1,12 @@
 import { errorMessages } from '../errors.js'
 import { toHaveTheSameElements } from "../../testMatchers.js"
-import { getFirstNotConnectedCardIndex, getConnectedCards, getNotConnectedCardsWithAllowedSymbol } from '../solution.js'
+import { 
+    getFirstNotConnectedCardIndex, 
+    getConnectedCards, 
+    getNotConnectedCardsWithAllowedSymbol,
+    getFirstNotConnectedCard,
+} from '../solution.js'
+
 // const { xor } = require('../arrayLogicFunctions.js');
 
 expect.extend({toHaveTheSameElements})
@@ -69,5 +75,41 @@ describe('Testing solution: getNotConnectedCardsWithAllowedSymbol', () => {
             [6, 7, 8]
         ]
         expect(getNotConnectedCardsWithAllowedSymbol(solution, addedCard, nrOfSymbolsOnACard)).toEqual(expectedResult)
+    })
+})
+
+describe('Testing solution: firstNotConnectedCardIndex', () => {
+    it('Should find a first not connected card in case it exists [2]', () => {
+        const solution = [
+            [0,1,2],
+            [0,4,5],
+            [1,4,3],
+            [3,0,6],
+            [3,2,5],
+        ]
+        const addedCard = [0];
+        const expectedResult = 2
+        expect(getFirstNotConnectedCardIndex(solution, addedCard)).toBe(expectedResult)
+    })
+    it('Should find a first not connected card in case it exists: [0]', () => {
+        const solution = [
+            [1,4,3],
+            [0,1,2],
+            [0,4,5],
+            [3,0,6],
+            [3,2,5],
+        ]
+        const addedCard = [0];
+        const expectedResult = 0
+        expect(getFirstNotConnectedCardIndex(solution, addedCard)).toBe(expectedResult)
+    })
+    it('Should return -1 in case no not connected cards are found', () => {
+        const solution = [
+            [0,1],
+            [1,2],
+        ]
+        const addedCard = [0,2];
+        const expectedResult = -1
+        expect(getFirstNotConnectedCardIndex(solution, addedCard)).toBe(expectedResult)
     })
 })

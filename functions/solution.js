@@ -26,4 +26,21 @@ const getNotConnectedCardsWithAllowedSymbol = (solution, addedCard, nrOfSymbolsO
     })
 }
 
-export { getFirstNotConnectedCardIndex, getConnectedCards, getNotConnectedCardsWithAllowedSymbol }
+// const getFirstNotConnectedCardIndex = (solution, addedCard) => {
+//     return solution.findIndex(card => !card.reduce((acc, symbol) => {
+//         if (addedCard.find(addedSymbol => addedSymbol === symbol)) acc = true;
+//         return acc;
+//     }, false))
+// }
+const getFirstNotConnectedCard = (solution, addedCard) => {
+    const firstNotConnectedCardIndex = getFirstNotConnectedCardIndex(solution, addedCard);
+    return firstNotConnectedCardIndex === -1 ? undefined : firstNotConnectedCardIndex;
+}
+
+export { 
+    
+    getConnectedCards, 
+    getNotConnectedCardsWithAllowedSymbol,
+    getFirstNotConnectedCard, //not tested
+    getFirstNotConnectedCardIndex, 
+}

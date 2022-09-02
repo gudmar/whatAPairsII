@@ -258,8 +258,8 @@ List of functions:
      ok   getConnectedCards
      ok   getAllSymbols
      ok   getListOfAllowedSymbols
-        getNotConnectedCardsWithAllowedSymbol = (solution, addedCard, nrOfSymbolsOnACard) => {
-        getFirstNotConnectedCardIndex = (solution, addedCard) => {
+     ok   getNotConnectedCardsWithAllowedSymbol = (solution, addedCard, nrOfSymbolsOnACard) => {
+     ok   getFirstNotConnectedCardIndex = (solution, addedCard) => {
         getFirstNotConnectedCard 
 
 
