@@ -5,6 +5,7 @@ import {
     getConnectedCards, 
     getNotConnectedCardsWithAllowedSymbol,
     getFirstNotConnectedCard,
+    connectCard,
 } from '../solution.js'
 
 // const { xor } = require('../arrayLogicFunctions.js');
@@ -112,4 +113,85 @@ describe('Testing solution: firstNotConnectedCardIndex', () => {
         const expectedResult = -1
         expect(getFirstNotConnectedCardIndex(solution, addedCard)).toBe(expectedResult)
     })
+})
+
+describe('Testing getFristNotConnectedCard', () => {
+    it('Should find a first not connected card in case it exists [3,2,5]', () => {
+        const solution = [
+            [0,1,2],
+            [0,4,5],
+            [1,4,3],
+            [3,0,6],
+            [3,2,5],
+        ]
+        const addedCard = [0];
+        const expectedResult = [1,4,3];
+        expect(getFirstNotConnectedCard(solution, addedCard)).toEqual(expectedResult)
+    });
+    it('Should return undefined in case no not connected cards are found', () => {
+        const solution = [
+            [0,1],
+            [1,2],
+        ]
+        const addedCard = [0,2];
+        const expectedResult = undefined
+        expect(getFirstNotConnectedCard(solution, addedCard)).toBe(expectedResult)
+    })
+})
+
+describe('Testing connectACard, ', () => {
+    it('Should connect first card from 2 symbol to 3 symbol solution', ()=>{
+        const baseSolution = [
+            [0,1],
+            [1,2],
+            [2,0],
+        ];
+        const nrOfSymbolsOnACard = 3;
+        const addedCard = [];
+        const expectedSolution = [
+            [0, 1],
+            [1, 2],
+            [2, 0],
+        ];
+        const expectedAddedCard = [0];
+        connectCard(addedCard, baseSolution, nrOfSymbolsOnACard)
+        expect(baseSolution).toEqual(expectedSolution);
+        expect(addedCard).toEqual(expectedAddedCard);
+    })
+    it('Should connect second card from 2 symbol to 3 symbol solution', ()=>{
+        const baseSolution = [
+            [0,1],
+            [1,2],
+            [2,0],
+        ];
+        const nrOfSymbolsOnACard = 3;
+        const addedCard = [0];
+        const expectedSolution = [
+            [0, 1],
+            [1, 2, 3],
+            [2, 0],
+        ];
+        const expectedAddedCard = [0, 3];
+        connectCard(addedCard, baseSolution, nrOfSymbolsOnACard)
+        expect(baseSolution).toEqual(expectedSolution);
+        expect(addedCard).toEqual(expectedAddedCard);
+    });
+    // it('Should connect 3rd card from 2 symbol to 3 symbol solution', ()=>{
+    //     const baseSolution = [
+    //         [0,1],
+    //         [1,2, 3],
+    //         [2,0],
+    //     ];
+    //     const nrOfSymbolsOnACard = 3;
+    //     const addedCard = [0, 3];
+    //     const expectedSolution = [
+    //         [0, 1],
+    //         [1, 2, 3],
+    //         [2, 0, 4],
+    //     ];
+    //     const expectedAddedCard = [0, 3, 4];
+    //     connectCard(addedCard, baseSolution, nrOfSymbolsOnACard)
+    //     expect(baseSolution).toEqual(expectedSolution);
+    //     expect(addedCard).toEqual(expectedAddedCard);
+    // })
 })
