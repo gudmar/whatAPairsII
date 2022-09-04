@@ -1,0 +1,278 @@
+1)==================================
+ solution = [
+                [0,1],
+                [1,2],
+                [2,0],
+        ];
+addedCard = [];
+restrictedSymbols = [];
+connectedCards = [];
+nextSymbolToStartConnections = 0; // always use this symbol to start connecting a newly created card !!
+
+2)==================================
+Add a card to added cards, as there is no need to insert new symbol. 
+Add a nextSymbolToStartConnections as a first symbol of the new card.
+Increase nextSymbolToStartConenctions
+ solution = [
+                [0,1],
+                [1,2],
+                [2,0],
+        ];
+addedCard = [0];
+restrictedSymbols = [0, 1, 2]; // all symbols that are on connected cards
+connectedCards = [0, 2];
+nextSymbolToStartConnections = 1;
+
+
+3)=================================
+New symbol, as all symbols are restricted
+ solution = [
+                [0, 1],
+                [1, 2, 3],
+                [2, 0],
+        ];
+const addedCard = [0, 3];
+restrictedSymbols = [0, 1, 2]; // all symbols that are on connected cards
+connectedCards = [0, 1, 2];
+nextSymbolToStartConnections = 1;
+        
+4)=================================
+Add addedCard to the solution and check if soultion is ready.
+All cards connected, but stop condition not met. 
+Add a new card
+ solution = [
+                [0, 1],
+                [1, 2, 3],
+                [2, 0],
+                [0, 3],
+        ];
+const addedCard = [];
+restrictedSymbols = []; // all symbols that are on connected cards
+connectedCards = [];
+nextSymbolToStartConnections = 1;
+
+5)=================================
+Connect a first card to added card by adding the nextSymbolToStartConnections = 1 to addedCard
+Increase nextSymbolToStartConnections
+ solution = [
+                [0, 1],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3],
+        ];
+const addedCard = [1];
+restrictedSymbols = [0, 1, 2, 3, 4]; // all symbols that are on connected cards
+connectedCards = [0, 1];
+nextSymbolToStartConnections = 2;
+notConnectedCardsHaveOnlyRestrictedSymbols = true;
+
+6)=================================
+notConnectedCardsHaveOnlyRestrictedSymbols === true;
+First not connected card is 2.
+firstAllowedSymbol === 4,
+connect 2 card with 4
+
+ solution = [
+                [0, 1],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3],
+        ];
+const addedCard = [1, 4];
+restrictedSymbols = [0, 1, 2, 3, 4]; // all symbols that are on connected cards
+connectedCards = [0, 1, 2];
+
+7)=================================
+notConnectedCardsHaveOnlyRestrictedSymbols === true;
+First not connected card is 3.
+firstAllowedSymbol === 5,
+connect 3 card with 5
+
+ solution = [
+                [0, 1],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+        ];
+const addedCard = [1, 4, 5];
+restrictedSymbols = [0, 1, 2, 3, 4, 5]; // all symbols that are on connected cards
+connectedCards = [0, 1, 2, 3];
+
+8)=================================
+notConnectedCardsHaveOnlyRestrictedSymbols === true;
+All cards are connected,
+Stop condition is not met (not every card has equal number of symbols)
+firstAllowedSymbol === nd,
+Add new empty card
+
+ solution = [
+                [0, 1],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5],
+        ];
+const addedCard = [];
+restrictedSymbols = []; // all symbols that are on connected cards
+connectedCards = [];
+nextSymbolToStartConnections = 2;
+
+9)================================
+notConnectedCardsHaveOnlyRestrictedSymbols === false;
+Add nextSymbolToStartConnections to addedCard;
+Increase nextSymbolToStartConenctions
+
+ solution = [
+                [0, 1],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5]
+        ];
+const addedCard = [2];
+restrictedSymbols = [1, 2, 3, 4]; // all symbols that are on connected cards
+connectedCards = [1, 2];
+nextSymbolToStartConnections = 3;
+
+10)================================
+notConnectedCardsHaveOnlyRestrictedSymbols === false;
+firstNotConnectedCard = 0
+First not connected card is 0, but card 3 and card 4 contain an already used symbol (5) that is not restricted,
+so it should be used in the first place:
+
+ solution = [
+                [0, 1],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5]
+        ];
+const addedCard = [2, 5];
+restrictedSymbols = [1, 2, 3, 4, 5]; // all symbols that are on connected cards
+connectedCards = [1, 2, 3, 4];
+nextSymbolToStartConnections = 3;
+
+
+11)================================
+notConnectedCardsHaveOnlyRestrictedSymbols === true;
+firstNotConnectedCard = 0
+nextAllowedSymbol === 6
+connect firstNotConnectedCard with nextAllowedSymbol
+
+ solution = [
+                [0, 1, 6],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5]
+        ];
+const addedCard = [2, 5, 6];
+restrictedSymbols = [1, 2, 3, 4, 5, 6]; // all symbols that are on connected cards
+connectedCards = [1, 2, 3, 0];
+nextSymbolToStartConnections = 3;
+
+13)================================
+Add added card to the solution:
+ solution = [
+                [0, 1, 6],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5],
+                [2, 5, 6]
+        ];
+
+!!)================================
+Every card is connected to each card with exactly only one symbol. No redundant symbols.
+Only issue is numberOfSymbolOccurences : {
+    '0': 3,
+    '1': 3,
+    '2': 3,
+    '3': 2,
+    '4': 2,
+    '5': 3,
+    '6': 2,
+}
+And number of cards is 6, and expected is 7, so it is obvious, that we sould add [3, 4, 6]
+but lets see if our algorithm leads to this solution:
+
+14)===============================
+Construct an empty addedCard 
+ solution = [
+                [0, 1, 6],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5],
+                [2, 5, 6]
+        ];
+const addedCard = [];
+restrictedSymbols = []; // all symbols that are on connected cards
+connectedCards = [];
+nextSymbolToStartConnections = 3
+
+15)===============================
+ Add nextSymbolToStartConenctions to addedCard;
+ solution = [
+                [0, 1, 6],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5],
+                [2, 5, 6]
+        ];
+const addedCard = [3];
+restrictedSymbols = [0, 1, 2, 3, 5]; // all symbols that are on connected cards
+connectedCards = [1, 3];
+nextSymbolToStartConnections = 4
+
+16)===============================
+ not restricted symbols for reuse === [4, 6];
+ Use first of not restricted symbols for reuse (4):
+ solution = [
+                [0, 1, 6],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5],
+                [2, 5, 6]
+        ];
+const addedCard = [3, 4];
+restrictedSymbols = [0, 1, 2, 3, 4, 5]; // all symbols that are on connected cards
+connectedCards = [1, 3, 2, 4];
+nextSymbolToStartConnections = 4
+
+
+17)===============================
+ not restricted symbols for reuse === [6];
+ Use first of not restricted symbols for reuse (6):
+ solution = [
+                [0, 1, 6],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5],
+                [2, 5, 6],
+                [3, 4, 6]
+        ];
+const addedCard = [3, 4, 6];
+restrictedSymbols = [0, 1, 2, 3, 4, 5, 6]; // all symbols that are on connected cards
+connectedCards = [1, 3, 2, 4, 0, 5];
+nextSymbolToStartConnections = 4
+
+COMPLETE: 
+1) Every card is connected to another card with just one symbol,
+2) Each symbol is used the exectly the same number of times,
+3) nrOfSymbols === urOfSymbolsOnCard * (nrOfSymbolsOnCard - 1) + 1;
+4) nrOfCards === nrOfSymbolsOnCard * (nrOfSymbolsOnCard - 1) + 1;
+
+ solution = [
+                [0, 1, 6],
+                [1, 2, 3],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5],
+                [2, 5, 6],
+                [3, 4, 6]
+        ];
+
