@@ -1,0 +1,157 @@
+https://www.petercollingridge.co.uk/blog/mathematics-toys-and-games/dobble/
+https://www.101computing.net/the-dobble-algorithm/
+https://math.stackexchange.com/questions/1303497/what-is-the-algorithm-to-generate-the-cards-in-the-game-dobble-known-as-spo
+https://i.stack.imgur.com/Is3bz.png
+
+
+A B C |    |
+A     |D E |
+A     |    |F G
+------+----+-----
+  B   |D   |F 
+  B   |  E |  G
+------+----+-----
+    C |D   |  G
+    C |  E |F
+
+cards are: ABC, ADE, AFG, BDF, BEG, CDG, CEF
+
+There are sections:
+section[0,0] | section [0, 1] | section [0, 2]
+-------------+----------------+---------------
+section[1,0] | section [1, 1] | section [1, 2]
+-------------+----------------+---------------
+section[2,0] | section [2, 1] | section [2, 2]
+
+nrSymbolsOnCard === primary + 1;
+nrOfCards === n**2 + n + 1;
+nrOfCards = nrOfSymbolsOnCard^2 - nrOfSymbolsOnCard + 1
+
+The number of sections equals to the number of symbols on a single cards
+
+Bigger solution:
+
+A B C D |      |      |      |
+A       |E F G |      |      |
+A       |      |H I J |      |
+A       |      |      |K L M |
+--------+------+------+------+
+  B     |E     |H     |K     |
+  B     |  F   |  I   |  L   |
+  B     |    G |    J |    M |
+--------+------+------+------+
+    C   |E     |  I   |    M | 
+    C   |  F   |    J |K     | 
+    C   |    G |H     |  L   | 
+--------+------+------+------+-----
+      D |E     |    J |  L   |
+      D |  F   |H     |    M |
+      D |    G |  I   |N     |
+
+CardGenerator(nrOfSymbolsOnCard);
+
+
+1) For each card generateCard(NrOfCard);
+
+2) generateCard(nrOfCard) alg:
+For each symbol of nrOfSymbolsOnCard generateCardSymbol(nrOfSymbol, nrOfCard);
+
+3) generateCardSymbol(nrOfSymbol, nrOfCard) algorithm:
+   const rowSectionNr = getRowSectionNr(nrOfCard)
+   const colSectionNr = nrOfSymbol;
+   const indexInSection = getCardIndexInSection(nrOfCard);
+   const orderedSymbolsInSection = getOrderedSymbolsForSection(rowSectionNr, colSectionNr);
+return symbolsInSection[indexInSection]
+
+unknown:
+    getRowSectionNr(nrOfCard),
+    getCardIndexInSection(nrOfCard),
+    getOrderedSymbolsForSection(rowSectionNr, colSectionNr)
+
+4) ==============================
+getRowSectionNr(nrOfCard), nrOfSymbolsOnCard needed also, but would be provided by higher order function
+    if (nrOfCard < nrOfSymbolsOnCard) return 0;
+    const result = Math.floor((nrOfCard + 1 - nrOfSymbolsOnCard) / nrOfSymbolsOnCard); // nrOfCard + 1, because nrOfCard is from 0 to nrOfSymbolsOnCard - 1;
+    return result;
+
+getCardIndexInSection(nrOfCard), nrOfSymbolsOnCard needed, provided by HOF
+    if (nrOfCard < nrOfSymbolsOnCard) return nrOfCard % nrOfSymbolsOnCard;
+    const result = Math.floor((nrOfCard + 1 - nrOfSymbolsOnCard) % nrOfSymbolsOnCard); // nrOfCard + 1, because nrOfCard is from 0 to nrOfSymbolsOnCard - 1;
+    return result;
+
+getOrderedSymbolsForSection(rowSectionNr, colSectionNr)
+    const possibleSymbolsAtIndex = getPossibleSymbolsAtIndex(colSectionNr);
+    const orderedSymbolsAtIndex = orderSymbols(symbols, rowSectionNr, colSectionNr)
+    return orderedSymbolsAtIndex;
+
+unknown:
+    getPossibleSymbolsAtIndex(colSectionNr);
+    orderSymbols(symbols, rowSectionNr, colSectionNr)
+
+
+5) ===============================
+   getPossibleSymbolsAtIndex(colSectionNr):
+        const totalNumberOfSymbols = getTotalNumberOfSymbols(nrOfSymbolsOnCard);
+        const allSymbols = getAllSymbols(totalNumberOfSymbols);
+        const startIndex = colSectionNr * (nrOfSymbolsOnCard - 1) + 1;
+        const endIndex = startIndex + nrOfSymbolsOnCard - 1;
+        const result = getArrayOfElements(startIndex, endIndex); // include 0, not include nrOfSymbolsOnCard
+
+    orderSymbols(symbols, cardNr, symbolOnCardNr) {  // NOT EXECTLY WHAT WAS WANTED
+        if (cardNr === 0 && symbolOnCardNr === 0) return getAllSymbols(nrOfSymbolsOnCard); // 1,1 section
+        if (symbolOnCardNr === 0) return Array(nrOfSymbolsOnCard).fill(undefined).map(symbol => getRowSectionNr(cardNr)); // 1, Y section 
+        if (cardNr === 0) return getPossibleSymbolsAtIndex(0);
+    }
+
+
+    moveMatrix:
+    [
+        [ 0, 0, 0],
+        [ 0, 1, 2],
+        [ 0, 2, 3],
+    ]
+
+
+    [
+        [ 0, 0, 0, 0, 0],
+        [ 0, 1, 2, 3, 4],
+        [ 0, 2, 3, 4, 5],
+        [ 0, 3, 4, 5, 6]
+    ]
+    
+    // NEED to write a bigger solution just to be sure
+
+
+
+
+
+
+
+
+
+const isPrimary = (nr) => {
+    let dividenda = Math.floor(nr / 2);
+    let nrOfDivisions = 0;
+    for (let i = dividenda; dividenda > 0; dividenda--) {
+        nrOfDivisions = nr % dividenda ? nrOfDivisions + 1 : nrOfDivisions;
+        if (nrOfDivisions > 1) return false;
+    }
+    return true;
+}  // test this.
+
+const getArrayOfNull = nrOfElements => {
+    const arr = new Array(nrOfElements);
+    return arr.fill(null)
+}
+
+const getNrOfSymbols = (nrOfSymbolsOnCard) => nrOfSymbolsOnCard * {nrOfSymbolsOnCard - 1} + 1;  // Not according to the alg from web page, but for my worked so far;
+
+const getAllSymbols = (nrOfSymbolsOnCard) => getArrayOfNull(getNrOfSymbols(nrOfSymbolsOnCard)).map( (_, index) => index);
+
+
+
+
+generateCards = (nrSymbolsOnCard) => {
+    if (!isPrimary(nrOfSymbolsOnCard)) throw new Error('Probably will not work for this nr of cards');
+
+}
