@@ -27,6 +27,22 @@ solution = [
                 [3, 4, 6]
     ];
 addedCard = [ 0 ];
+
+solution = [
+                [0, 1, 6],
+                [1, 2, 3, 7],
+                [2, 0, 4],
+                [0, 3, 5],
+                [1, 4, 5, 8],
+                [2, 5, 6, 9],
+                
+    ];
+addedCard = [0, 7, 8 , 9];
+reserveSymbols = [1, 2, 3, 5, 6, 0, 3, 4, 6]
+restrictedSymbols = [0,1,2,3,4,5,6,7];
+connectedCards = [0, 1, 2, 3];
+
+
 restrictedSymbols = [0, 1, 2, 3, 4, 5, 6];
 notRestrictedSymbols = [7, 8, 9, A, B, C]
 connectedCards = [0, 2, 3];
@@ -67,7 +83,7 @@ solution = [
                 [2, 5, 6],
                 [3, 4, 6]
     ];
-addedCard = [ 0, 78, ];
+addedCard = [ 0, 7, 8, ];
 restrictedSymbols = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 connectedCards = [0, 1, 2, 3, 4];
 firstNotConnectedCard = [5, 6];
