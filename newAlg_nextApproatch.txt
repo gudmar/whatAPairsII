@@ -97,10 +97,27 @@ unknown:
         const endIndex = startIndex + nrOfSymbolsOnCard - 1;
         const result = getArrayOfElements(startIndex, endIndex); // include 0, not include nrOfSymbolsOnCard
 
+    shiftArray = (arr, nrOfElements) => {
+        const correctedNrOfElements = nrOfElements % arr.length;
+        const arrA = arr.slice(0, correctedNrOfElements);
+        const arrB = arr.slice(correctedNrOfElements);
+        return [arrB, arrA].flat();
+    }
+
+
     orderSymbols(symbols, cardNr, symbolOnCardNr) {  // NOT EXECTLY WHAT WAS WANTED
         if (cardNr === 0 && symbolOnCardNr === 0) return getAllSymbols(nrOfSymbolsOnCard); // 1,1 section
         if (symbolOnCardNr === 0) return Array(nrOfSymbolsOnCard).fill(undefined).map(symbol => getRowSectionNr(cardNr)); // 1, Y section 
         if (cardNr === 0) return getPossibleSymbolsAtIndex(0);
+        if (cardNr === 1) return getPossibleSymbolsAtIndex(1);
+        if (symbolOnCardNr === 1) return getPossibleSymbolsAtIndex(symbolOnCardNr);
+        const cardSection = getCardIndexInSection(cardNr);
+        const cardSectionOffset = 1; // due to fact, that for section 0 and 1 already solved. A pattern starts from index === 2;
+        const cardSymbolOffset = 1; // section 0 and 1 already solved;
+        const multipliedOffset = (cardSection - cardSectionOffset) * (symbolOnCardNr - cardSymbolOffset);
+        const possibleSymbols = getPossibleSymbolsAtIndex(symbolOnCardNr);
+        const result = shiftArray(possibleSymbols, multipliedOffset);
+        return result;
     }
 
 
