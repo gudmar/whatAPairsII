@@ -1,4 +1,4 @@
-import { objectsEqual } from './testMatchers.js'
+// import { objectsEqual } from './testMatchers.js'
 
 class ArrayElementsCounter {
     constructor(arr){
@@ -57,18 +57,18 @@ function isPrimitive(val) {
     return ['string', 'symbol', 'bigInt', 'number', 'undefined', 'boolean'].includes(typeof val);
 }
 
-function areObjectsEqual(obj1, obj2){
-    if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
-    return Object.keys(obj1).reduce((prev, key) => {
-        if (!objectsEqual(obj1[key], obj2[key])) prev = false;
-        return prev
-    }, true)
-}
+// function areObjectsEqual(obj1, obj2){
+//     if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
+//     return Object.keys(obj1).reduce((prev, key) => {
+//         if (!objectsEqual(obj1[key], obj2[key])) prev = false;
+//         return prev
+//     }, true)
+// }
 
 export { 
     countElementsOfArray,
     isPrimitive,
     allArrayElementsArePrimitive,
     ArrayElementsCounter,
-    areObjectsEqual,
+    // areObjectsEqual,
 }
