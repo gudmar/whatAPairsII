@@ -7,6 +7,11 @@ const errors = {
     ARG_ARR_TOO_SMALL: 'Function array argument not large enough',
 }
 
+const reasons = {
+    TOO_MANY_CONNECTIONS: 'Too many conections',
+    NOT_ENOUGH_CONNECTIONS: 'Not enough connections',
+}
+
 const isPrimaryNumber = (nr) => {
     let dividenda = Math.floor(nr / 2);
     let nrOfDivisions = 0;
@@ -30,7 +35,7 @@ const commonSymbolsBetweenArrays = (arr1, arr2) => and(arr1, arr2);
 //    return solution.every(card => areElementsOfArrayUnique(card))
 // }
 
-const notValidCardsAboveIndex = (solution, index) => {
+const cardsAboveIndexNotValidWithCardAtIndex = (solution, index) => {
    if (solution.length <= index + 1) throw new Error(errors.TOO_BIG_INDEX)
    const cardAtIndex = solution[index];
    const cardsFromIndex = solution.slice(index + 1);
@@ -41,7 +46,7 @@ const notValidCardsAboveIndex = (solution, index) => {
                cardA: cardAtIndex,
                cardB: card,
                repeatingSymbols: commonSymbols,
-               reason: 'Too many connections'
+               reason: reasons.TOO_MANY_CONNECTIONS,
            })
            
        }
@@ -49,19 +54,19 @@ const notValidCardsAboveIndex = (solution, index) => {
            raport.push({
                cardA: cardAtIndex,
                cardB: card,
-               reason: 'Not enough connections'
+               reason: reasons.NOT_ENOUGH_CONNECTIONS,
            })
        }
        return raport
    }, [])
 }
 
-const notValidCards = solution => {
+const cardsConnectExactlyOnce = solution => {
    if (!Array.isArray(solution)) throw new Error(errors.ARG_NOT_ARRAY)
    if (solution.length < 3) throw new Error(errors.ARG_ARR_TOO_SMALL)
    const raport = [];
    for (let index = 0; index < solution.length - 1; index++) {
-       const partRaport = notValidCardsAboveIndex(solution, index);
+       const partRaport = cardsAboveIndexNotValidWithCardAtIndex(solution, index);
        if (partRaport.length > 0) raport.push(partRaport);
    }
    return raport;
@@ -83,19 +88,20 @@ const allSymbolsRepeatDesiredNrOfTimes = solution => {
 //     return solution.every(card => card.length === nrOfCards)
 // }
 
-const allCardsConnectedWithSilgleSymbol = solution => notValidCards(solution).length === 0;
+const allCardsConnectedWithSilgleSymbol = solution => cardsConnectExactlyOnce(solution).length === 0;
 
 const isSolutionValid = solution => {
     if (!allSymbolsRepeatDesiredNrOfTimes(solution)) return false;
-    return notValidCards(solution).length === 0
+    return cardsConnectExactlyOnce(solution).length === 0
 }
 
 export {
     isPrimaryNumber,
-
+    errors,
+    reasons,
     isSolutionValid,
-    notValidCards,
-    notValidCardsAboveIndex,
+    cardsConnectExactlyOnce,
+    cardsAboveIndexNotValidWithCardAtIndex,
     // haveCardsInSolutionUniqueSymbols,
     commonSymbolsBetweenArrays,
     // areElementsOfArrayUnique, 
