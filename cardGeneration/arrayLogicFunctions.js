@@ -1,3 +1,7 @@
+const errors = {
+    OUTSIDE_INDEX: 'Index outside the array'
+}
+
 const arrCp = arr => arr.map( _ => _ );
 
 const and = (arr1, arr2) => {
@@ -33,5 +37,14 @@ const getArrayOfNull = nrOfElements => {
     return arr.fill(null)
 }
 
+const getArraySlice = (arr, start, end) => {
+    if (end >= arr.length || start < 0) throw new Error(errors.OUTSIDE_INDEX)
+    const arrCp = [...arr];
+    const result = arrCp.filter((item, index) => {
+        return (index >= start && index <= end) ? true : false;
+    })
+    return result;
+}
+
 // module.exports = { xor };
-export { and, xor, getArrayOfNull }
+export { and, xor, getArrayOfNull, getArraySlice, errors }

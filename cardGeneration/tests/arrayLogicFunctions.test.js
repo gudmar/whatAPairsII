@@ -1,5 +1,5 @@
 // import { describe } from "node:test";
-import { xor, and, getArrayOfNull } from "../arrayLogicFunctions.js";
+import { xor, and, getArrayOfNull, getArraySlice, errors} from "../arrayLogicFunctions.js";
 import { toHaveTheSameElements } from "../../testMatchers.js"
 // const { xor } = require('../arrayLogicFunctions.js');
 
@@ -65,6 +65,28 @@ describe('Testing xor from arrayLogicFunctions', () => {
         const arr1 = [1, 3, 5];
         const arr2 = [];
         expect(xor(arr1, arr2)).toEqual([1, 3, 5])
+    })
+});
+describe('Testing getArraySlice', () => {
+    it('Should return 3,4,5,6 in case [0,1,2,3,4,5,6,7,8] start is 3, end is 6', () => {
+        const arr = [0,1,2,3,4,5,6,7,8];
+        const result = getArraySlice(arr, 3, 6)
+        expect(result).toEqual([3,4,5,6])
+    })
+    it('Should return 1,2,3,4,5,6,7,8 in case [0,1,2,3,4,5,6,7,8] start is 0, end is 8', () => {
+        const arr = [0,1,2,3,4,5,6,7,8];
+        const result = getArraySlice(arr, 0, 8)
+        expect(result).toEqual([0,1,2,3,4,5,6,7,8])
+    })
+    it('Should throw in case [0,1,2,3,4,5,6,7,8] start is 0, end is 9, as index 9 is not available', () => {
+        const arr = [0,1,2,3,4,5,6,7,8];
+        const func = () => getArraySlice(arr, 0, 9)
+        expect(func).toThrow(errors.OUTSIDE_INDEX);
+    })
+    it('Should throw in case [0,1,2,3,4,5,6,7,8] start is -1, end is 4, as index 9 is not available', () => {
+        const arr = [0,1,2,3,4,5,6,7,8];
+        const func = () => getArraySlice(arr, -1, 4)
+        expect(func).toThrow(errors.OUTSIDE_INDEX);
     })
 });
 

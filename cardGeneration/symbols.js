@@ -8,8 +8,14 @@ const getNrOfSymbolsAccordingToWebPage = nrOfSymbolsOnCard => nrOfSymbolsOnCard*
 
 const getAllSymbols = (nrOfSymbolsOnCard) => getArrayOfNull(getNrOfSymbols(nrOfSymbolsOnCard)).map( (_, index) => index);
 
+const getArray = (start, end) => getArrayOfNull(end - start).map( (_, index) => index + start);
+
+const getArrayOfSameElements = (length, element) => getArrayOfNull(length).map((item => element));
+
 
 export {
     getNrOfSymbols,
     getAllSymbols,
+    getArray,
+    getArrayOfSameElements
 }

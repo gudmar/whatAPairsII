@@ -69,12 +69,12 @@ unknown:
     getOrderedSymbolsForSection(rowSectionNr, colSectionNr)
 
 4) ==============================
-getRowSectionNr(nrOfCard), nrOfSymbolsOnCard needed also, but would be provided by higher order function
++ etRowSectionNr(nrOfCard), nrOfSymbolsOnCard needed also, but would be provided by higher order function
     if (nrOfCard < nrOfSymbolsOnCard) return 0;
     const result = Math.floor((nrOfCard + 1 - nrOfSymbolsOnCard) / nrOfSymbolsOnCard); // nrOfCard + 1, because nrOfCard is from 0 to nrOfSymbolsOnCard - 1;
     return result;
 
-getCardIndexInSection(nrOfCard), nrOfSymbolsOnCard needed, provided by HOF
++ getCardIndexInSection(nrOfCard), nrOfSymbolsOnCard needed, provided by HOF
     if (nrOfCard < nrOfSymbolsOnCard) return nrOfCard % nrOfSymbolsOnCard;
     const result = Math.floor((nrOfCard + 1 - nrOfSymbolsOnCard) % nrOfSymbolsOnCard); // nrOfCard + 1, because nrOfCard is from 0 to nrOfSymbolsOnCard - 1;
     return result;
@@ -90,19 +90,21 @@ unknown:
 
 
 5) ===============================
-   getPossibleSymbolsAtIndex(colSectionNr):
+   + getPossibleSymbolsAtIndex(colSectionNr):
         const totalNumberOfSymbols = getTotalNumberOfSymbols(nrOfSymbolsOnCard);
         const allSymbols = getAllSymbols(totalNumberOfSymbols);
         const startIndex = colSectionNr * (nrOfSymbolsOnCard - 1) + 1;
         const endIndex = startIndex + nrOfSymbolsOnCard - 1;
         const result = getArrayOfElements(startIndex, endIndex); // include 0, not include nrOfSymbolsOnCard
 
-    shiftArray = (arr, nrOfElements) => {
+    + shiftArray = (arr, nrOfElements) => {
         const correctedNrOfElements = nrOfElements % arr.length;
         const arrA = arr.slice(0, correctedNrOfElements);
         const arrB = arr.slice(correctedNrOfElements);
         return [arrB, arrA].flat();
     }
+
+    + getArrayOfElements
 
 
     orderSymbols(symbols, cardNr, symbolOnCardNr) {  // NOT EXECTLY WHAT WAS WANTED
