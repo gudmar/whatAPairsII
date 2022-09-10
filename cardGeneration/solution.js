@@ -55,19 +55,25 @@ class DobbleSolution {
         return [arrB, arrA].flat();
     }
 
+    orderSymbolsForCardSection0(symbols, nrOfCard, nrOfSymbol) {
+
+    }
+
     orderSymbols(symbols, cardNr, symbolOnCardNr) {  // NOT EXECTLY WHAT WAS WANTED
             if (cardNr >= 0 && cardNr < this.nrOfSymbolsOnCard && symbolOnCardNr === 0) return [getArray(0, this.nrOfSymbolsOnCard), ...getArrayOfSameElements(this.nrOfSymbolsOnCard - 1, 0)]; // 1,1 section
-            if (symbolOnCardNr === 0) return getArrayOfSameElements(this.getRowSectionNr(cardNr));
-            // Array(this.nrOfSymbolsOnCard).fill(undefined).map(symbol => this.getRowSectionNr(cardNr)); // 1, Y section 
-            if (cardNr === 0) return getPossibleSymbolsAtIndex(0);
-            if (cardNr === 1) return getPossibleSymbolsAtIndex(1);
-            if (symbolOnCardNr === 1) return getPossibleSymbolsAtIndex(symbolOnCardNr);
-            const cardSection = getCardIndexInSection(cardNr);
+            if (symbolOnCardNr === 0) return getArrayOfSameElements(symbols.length - 1, symbols[this.getRowSectionNr(cardNr)]);
+            if (cardNr >= 0 && cardNr < this.nrOfSymbolsOnCard) {
+                const resultArr = getArrayOfSameElements(this.nrOfSymbolsOnCard, []);
+                resultArr[symbolOnCardNr] = symbols;
+                return resultArr;
+                return cardNr === symbolOnCardNr ? symbols : [];
+            }
+            if (symbolOnCardNr === 1) return symbols.map(_ => [_]);
+            const cardSection = this.getRowSectionNr(cardNr);
             const cardSectionOffset = 1; // due to fact, that for section 0 and 1 already solved. A pattern starts from index === 2;
             const cardSymbolOffset = 1; // section 0 and 1 already solved;
             const multipliedOffset = (cardSection - cardSectionOffset) * (symbolOnCardNr - cardSymbolOffset);
-            const possibleSymbols = getPossibleSymbolsAtIndex(symbolOnCardNr);
-            const result = shiftArray(possibleSymbols, multipliedOffset);
+            const result = this.shiftArray(symbols, multipliedOffset).map(_=>[_]);
         return result;
     }
 
