@@ -257,13 +257,16 @@ describe('Testing DobbleSolution class', () => {
             const result = solution.orderSymbols(symbols, nrOfCard, nrOfSection);
             expect(result).toEqual(expected);             
         })
-        it('Should return [[26],[27],[28],[29],[30]] in case of 6 symbols on a card, card nr 5, symbol 5', () => {
+        it('Should return [[26],[27],[28],[29],[30]] in case of 6 symbols on a card, card nr 7, symbol 5', () => {
             const solution = new DobbleSolution(6);
             const symbols = [26,27,28,29,30];
-            const nrOfCard = 5;
+            const nrOfCard = 7;
             const nrOfSection = 5;
             const expected = [[26],[27],[28],[29],[30]];
             const result = solution.orderSymbols(symbols, nrOfCard, nrOfSection);
+            console.log('RES');
+            console.log(result)
+
             expect(result).toEqual(expected);             
         })
         // ===================================================
@@ -278,6 +281,48 @@ describe('Testing DobbleSolution class', () => {
             const result = solution.orderSymbols(symbols, nrOfCard, nrOfSection);
             expect(result).toEqual(expected);                         
         })
+        // ===================================================
+        // Testing 2 row section, 3 symbol
+        // ===================================================
+        it('Should return [[12],[10],[11]] in case of 2 row section, 2 symbols', () => {
+            const solution = new DobbleSolution(4);
+            const symbols = [10,11,12];
+            const nrOfCard = 7;
+            const nrOfSection = 3;
+            const expected = [[12],[10],[11]];
+            const result = solution.orderSymbols(symbols, nrOfCard, nrOfSection);
+            expect(result).toEqual(expected);                         
+        })
+        // ===================================================
+        // Testing 3 row section, 2 symbol
+        // ===================================================
 
+        it('Should return [[8],[9],[7]] in case of 10 row section, 2 symbols', () => {
+            const solution = new DobbleSolution(4);
+            const symbols = [7,8,9];
+            const nrOfCard = 10;
+            const nrOfSection = 2;
+            const expected = [[8],[9],[7]];
+            const result = solution.orderSymbols(symbols, nrOfCard, nrOfSection);
+            expect(result).toEqual(expected);                         
+        })
+
+        // ===================================================
+        // Testing 3 row section, 3 symbol
+        // ===================================================
+
+        it('Should return [[12],[10],[11]] in case of 10 row section, 3 symbols', () => {
+            const solution = new DobbleSolution(4);
+            const symbols = [10,11,12];
+            const nrOfCard = 10;
+            const nrOfSection = 3;
+            const expected = [[12],[10],[11]];
+            const result = solution.orderSymbols(symbols, nrOfCard, nrOfSection);
+            expect(result).toEqual(expected);                         
+        })
+
+
+        // Seems to work. Should be tested with solutions above 4 sylmbols (this last scenarion), but must be tested from figher level, to make sure produces feasable solution
+        
     })
 })
