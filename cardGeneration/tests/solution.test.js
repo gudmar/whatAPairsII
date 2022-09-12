@@ -325,4 +325,51 @@ describe('Testing DobbleSolution class', () => {
         // Seems to work. Should be tested with solutions above 4 sylmbols (this last scenarion), but must be tested from figher level, to make sure produces feasable solution
         
     })
+    describe('Testing getOrderedSymbolsForSection:', () => {
+        it('Should return [0,1,2,3] for 0 section 0 card 4 symbolsOnCard', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.getOrderedSymbolsForSection(0,0)).toEqual([0,1,2,3]);
+        })
+        it('Should return [7,8,9] for 2 section 2 card 4 symbolsOnCard', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.getOrderedSymbolsForSection(2,2)).toEqual([7,8,9]);
+        })
+        it('Should return [] for 2 section 3 card 4 symbolsOnCard', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.getOrderedSymbolsForSection(2,3)).toEqual([]);
+        })
+    })
+    describe('Testing generateCardSymbol:', () => {
+        it('Should return 0 in case nrOfSymbol is 0 and card is 0 and nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCardSymbol(0,0)).toEqual(0);
+        })
+        it('Should return 1 in case nrOfSymbol is 1 and card is 0 and nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCardSymbol(1,0)).toBe(undefined);
+        })
+    })
+
+    describe('Testing generateCard:', () => {
+        it('Should generate [0,1,2,3] for nrOfSymbolsInCard 4 and cardNr === 0', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(0)).toEqual([0, 1, 2, 3])
+        })
+        // it('Should generate [0,4,5,6] for nrOfSymbolsInCard 4 and cardNr === 1', () => {
+        //     const solution = new DobbleSolution(4);
+        //     expect(solution.generateCard(1)).toEqual([0, 4, 5, 6])
+        // })
+        // it('Should generate [0,10,11,12] for nrOfSymbolsInCard 4 and cardNr === 3', () => {
+        //     const solution = new DobbleSolution(4);
+        //     expect(solution.generateCard(3)).toEqual([0, 10, 11, 12])
+        // })
+        // 1 section
+        // it('Should generate [1,4, 7, 10] for nrOfSymbolsInCard 4 and cardNr === 4', () => {
+        //     const solution = new DobbleSolution(4);
+        //     expect(solution.generateCard(5)).toEqual([1,4, 7, 10])
+        // })
+
+    })
+
+
 })
