@@ -48,6 +48,20 @@ A       |      |      |K L M |
       D |  F   |H     |    M |
       D |    G |  I   |N     |
 
+A 0
+B 1
+C 2 
+D 3
+E 4
+F 5 
+G 6 
+H 7
+I 8 
+J 9
+K 10
+L 11
+M 12
+
 CardGenerator(nrOfSymbolsOnCard);
 
 
@@ -56,7 +70,7 @@ CardGenerator(nrOfSymbolsOnCard);
 2) generateCard(nrOfCard) alg:
 For each symbol of nrOfSymbolsOnCard generateCardSymbol(nrOfSymbol, nrOfCard);
 
-3) generateCardSymbol(nrOfSymbol, nrOfCard) algorithm:
++ 3) generateCardSymbol(nrOfSymbol, nrOfCard) algorithm:
    const rowSectionNr = getRowSectionNr(nrOfCard)
    const colSectionNr = nrOfSymbol;
    const indexInSection = getCardIndexInSection(nrOfCard);
@@ -79,7 +93,7 @@ unknown:
     const result = Math.floor((nrOfCard + 1 - nrOfSymbolsOnCard) % nrOfSymbolsOnCard); // nrOfCard + 1, because nrOfCard is from 0 to nrOfSymbolsOnCard - 1;
     return result;
 
-getOrderedSymbolsForSection(rowSectionNr, colSectionNr)
++ getOrderedSymbolsForSection(rowSectionNr, colSectionNr)
     const possibleSymbolsAtIndex = getPossibleSymbolsAtIndex(colSectionNr);
     const orderedSymbolsAtIndex = orderSymbols(symbols, rowSectionNr, colSectionNr)
     return orderedSymbolsAtIndex;
@@ -107,7 +121,7 @@ unknown:
     + getArrayOfElements
 
 
-    orderSymbols(symbols, cardNr, symbolOnCardNr) {  // NOT EXECTLY WHAT WAS WANTED
+    + orderSymbols(symbols, cardNr, symbolOnCardNr) {  // NOT EXECTLY WHAT WAS WANTED
         if (cardNr === 0 && symbolOnCardNr === 0) return getAllSymbols(nrOfSymbolsOnCard); // 1,1 section
         if (symbolOnCardNr === 0) return Array(nrOfSymbolsOnCard).fill(undefined).map(symbol => getRowSectionNr(cardNr)); // 1, Y section 
         if (cardNr === 0) return getPossibleSymbolsAtIndex(0);
@@ -158,14 +172,14 @@ const isPrimary = (nr) => {
     return true;
 }  // test this.
 
-const getArrayOfNull = nrOfElements => {
++ const getArrayOfNull = nrOfElements => {
     const arr = new Array(nrOfElements);
     return arr.fill(null)
 }
 
-const getNrOfSymbols = (nrOfSymbolsOnCard) => nrOfSymbolsOnCard * {nrOfSymbolsOnCard - 1} + 1;  // Not according to the alg from web page, but for my worked so far;
++ const getNrOfSymbols = (nrOfSymbolsOnCard) => nrOfSymbolsOnCard * {nrOfSymbolsOnCard - 1} + 1;  // Not according to the alg from web page, but for my worked so far;
 
-const getAllSymbols = (nrOfSymbolsOnCard) => getArrayOfNull(getNrOfSymbols(nrOfSymbolsOnCard)).map( (_, index) => index);
++ const getAllSymbols = (nrOfSymbolsOnCard) => getArrayOfNull(getNrOfSymbols(nrOfSymbolsOnCard)).map( (_, index) => index);
 
 
 

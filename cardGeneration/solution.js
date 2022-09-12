@@ -5,12 +5,14 @@ import {
     getArrayOfSameElements,
 } from './symbols.js'
 import {
-    getArraySlice
+    getArraySlice, getArrayOfNull
 } from './arrayLogicFunctions.js'
 
 class DobbleSolution {
     constructor(nrOfSymbolsOnCard){
         this.nrOfSymbolsOnCard = nrOfSymbolsOnCard;
+        this.allSymbols = getAllSymbols(nrOfSymbolsOnCard);
+        this.possibleNrOfCards = (nrOfSymbolsOnCard) * (nrOfSymbolsOnCard - 1) + 1;
         this.errors = {
             SECTION_INDEX_INVALID: 'Section index outside range. Nr of sections i equal to nr of symbols on a card starting from 0'
         }
@@ -76,6 +78,43 @@ class DobbleSolution {
             const result = this.shiftArray(symbols, multipliedOffset).map(_=>[_]);
         return result;
     }
+
+    getOrderedSymbolsForSection(rowSectionNr, colSectionNr) {
+        const possibleSymbolsAtIndex = this.getPossibleSymbolsAtSectionIndex(colSectionNr);
+        const orderedSymbols = this.orderSymbols(possibleSymbolsAtIndex, rowSectionNr, colSectionNr);
+        const orderedSymbolsAtIndex = orderedSymbols[rowSectionNr];
+        console.log({name: 'getOrderedSymbolsForSection', rowSectionNr, colSectionNr, possibleSymbolsAtIndex, orderedSymbols, orderedSymbolsAtIndex})
+        return orderedSymbolsAtIndex;
+    }
+
+    generateCardSymbol(nrOfSymbol, nrOfCard) {
+        const rowSectionNr = this.getRowSectionNr(nrOfCard)
+        const colSectionNr = nrOfSymbol;
+        const indexInSection = this.getCardIndexInSection(nrOfCard);
+        const orderedSymbolsInSection = this.getOrderedSymbolsForSection(rowSectionNr, colSectionNr);
+        console.log({
+            name: 'generateCardSymbol',
+            nrOfCard,
+            nrOfSymbol,
+            rowSectionNr, colSectionNr, indexInSection, orderedSymbolsInSection,
+            result: orderedSymbolsInSection
+        })
+        return orderedSymbolsInSection[indexInSection]
+    }
+
+    generateCard(nrOfCard) {
+        const result = getArrayOfNull(this.nrOfSymbolsOnCard).reduce((acc, _, symbolNr) => {
+            const cardSymbol = this.generateCardSymbol(symbolNr, nrOfCard)
+            console.log('symbolNr', symbolNr, cardSymbol);
+            acc.push(cardSymbol || [])
+            return acc;
+        }, [])
+        console.log({name:'generateCard', result})
+        return result.flat();
+    }
+
+
+
 
 }
 
