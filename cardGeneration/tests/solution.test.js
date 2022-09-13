@@ -26,29 +26,43 @@ describe('Testing DobbleSolution class', () => {
         }) 
     });
     describe('Testing getCardIndexInSection', () => {
+
+        // 0 1 2 3 4 | 5 6 7 8 | 9 10 11 12 | 13 14 15 16 
+
         it('Should return 0 in case nrOfCard is 0', () => {
             const solution = new DobbleSolution(5);
             expect(solution.getCardIndexInSection(0)).toBe(0)
         })
         it('Should return 0 in case nrOfCard is 5 and nrOfSymbolsOnCard is 5', () => {
             const solution = new DobbleSolution(5);
-            expect(solution.getCardIndexInSection(5)).toBe(1)
+            expect(solution.getCardIndexInSection(5)).toBe(0)
         })
-        it('Should return 0 in case nrOfCard is 10 and nrOfSymbolsOnCard is 5', () => {
+        it('Should return 0 in case nrOfCard is 9 and nrOfSymbolsOnCard is 5', () => {
             const solution = new DobbleSolution(5);
-            expect(solution.getCardIndexInSection(5)).toBe(1)
+            expect(solution.getCardIndexInSection(9)).toBe(0)
         })
-        it('Should return 3 in case nrOfCard is 13 and nrOfSymbolsOnCard is 5', () => {
+        it('Should return 1 in case nrOfCard is 10 and nrOfSymbolsOnCard is 5', () => {
             const solution = new DobbleSolution(5);
-            expect(solution.getCardIndexInSection(13)).toBe(4)
+            expect(solution.getCardIndexInSection(10)).toBe(1)
+        })
+        it('Should return 0 in case nrOfCard is 13 and nrOfSymbolsOnCard is 5', () => {
+            const solution = new DobbleSolution(5);
+            expect(solution.getCardIndexInSection(13)).toBe(0)
         })
         it('Should return 5 in case nrOfCard is 14 and nrOfSymbolsOnCard is 5', () => {
             const solution = new DobbleSolution(5);
-            expect(solution.getCardIndexInSection(14)).toBe(0)
+            expect(solution.getCardIndexInSection(14)).toBe(1)
         })
-        it('Should return 0 in case nrOfCard is 15 and nrOfSymbolsOnCard is 5', () => {
+        it('Should return 2 in case nrOfCard is 15 and nrOfSymbolsOnCard is 5', () => {
             const solution = new DobbleSolution(5);
-            expect(solution.getCardIndexInSection(15)).toBe(1)
+            expect(solution.getCardIndexInSection(15)).toBe(2)
+        })
+
+        it('Should return 2 in case of 9 card in nrOfSymbolsOnCard 4 solution', () => {
+            // index: 0  1  2  3  4  5  6  7  8  9  10
+            // card:  0  1  2  3 |0  1  2 |0  1  2 | 0
+            const solution = new DobbleSolution(4);
+            expect(solution.getCardIndexInSection(9)).toBe(2); 
         })
     })
     describe('TEsting getPossibleSymbolsAtSectionIndex', () => {
@@ -338,16 +352,36 @@ describe('Testing DobbleSolution class', () => {
             const solution = new DobbleSolution(4);
             expect(solution.getOrderedSymbolsForSection(2,3)).toEqual([]);
         })
+
+        it('Should return [1] for 0 section 5 card 4 symbolsOnCard', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.getOrderedSymbolsForSection(5,0)).toEqual([1])
+        })
     })
     describe('Testing generateCardSymbol:', () => {
-        it('Should return 0 in case nrOfSymbol is 0 and card is 0 and nrOfSymbolsOnCard is 4', () => {
+        it('Should return [0,1,2,3] in case nrOfSymbol is 0 and card is 0 and nrOfSymbolsOnCard is 4', () => {
             const solution = new DobbleSolution(4);
-            expect(solution.generateCardSymbol(0,0)).toEqual(0);
+            expect(solution.generateCardSymbol(0,0)).toEqual([0,1,2,3]);
         })
-        it('Should return 1 in case nrOfSymbol is 1 and card is 0 and nrOfSymbolsOnCard is 4', () => {
+        it('Should return [] in case nrOfSymbol is 1 and card is 0 and nrOfSymbolsOnCard is 4', () => {
             const solution = new DobbleSolution(4);
-            expect(solution.generateCardSymbol(1,0)).toBe(undefined);
+            expect(solution.generateCardSymbol(1,0)).toEqual([]);
         })
+        it('Should return [1] in case nrOfSymbol is 0 and card is 5 and nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCardSymbol(0,5)).toEqual([1]);
+        })
+
+        it('Should return [5] in case nrOfSymbol is 1 and card is 5 and nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCardSymbol(1,5)).toEqual([5]);
+        })
+
+        it('Should return [9] in case nrOfSymbol is 3 and card is 8 and nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCardSymbol(3,8)).toEqual([9]);
+        })
+
     })
 
     describe('Testing generateCard:', () => {
@@ -355,14 +389,14 @@ describe('Testing DobbleSolution class', () => {
             const solution = new DobbleSolution(4);
             expect(solution.generateCard(0)).toEqual([0, 1, 2, 3])
         })
-        // it('Should generate [0,4,5,6] for nrOfSymbolsInCard 4 and cardNr === 1', () => {
-        //     const solution = new DobbleSolution(4);
-        //     expect(solution.generateCard(1)).toEqual([0, 4, 5, 6])
-        // })
-        // it('Should generate [0,10,11,12] for nrOfSymbolsInCard 4 and cardNr === 3', () => {
-        //     const solution = new DobbleSolution(4);
-        //     expect(solution.generateCard(3)).toEqual([0, 10, 11, 12])
-        // })
+        it('Should generate [0,4,5,6] for nrOfSymbolsInCard 4 and cardNr === 1', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(1)).toEqual([0, 4, 5, 6])
+        })
+        it('Should generate [0,10,11,12] for nrOfSymbolsInCard 4 and cardNr === 3', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(3)).toEqual([0, 10, 11, 12])
+        })
         // 1 section
         // it('Should generate [1,4, 7, 10] for nrOfSymbolsInCard 4 and cardNr === 4', () => {
         //     const solution = new DobbleSolution(4);
