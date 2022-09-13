@@ -35,9 +35,26 @@ class DobbleSolution {
 
     getCardIndexInSection(nrOfCard){
         if (nrOfCard < this.nrOfSymbolsOnCard) return nrOfCard % this.nrOfSymbolsOnCard;
-        const result = Math.floor((nrOfCard + 1 - this.nrOfSymbolsOnCard) % this.nrOfSymbolsOnCard); // nrOfCard + 1, because nrOfCard is from 0 to nrOfSymbolsOnCard - 1;
+        const nrOfCardWithoutZeroSection = nrOfCard - this.nrOfSymbolsOnCard;
+        const nrOfSection = Math.floor(nrOfCardWithoutZeroSection / (this.nrOfSymbolsOnCard - 1));
+        return nrOfCardWithoutZeroSection - nrOfSection * (this.nrOfSymbolsOnCard - 1)
+        const result = Math.floor((nrOfCard - this.nrOfSymbolsOnCard) % this.nrOfSymbolsOnCard); // nrOfCard + 1, because nrOfCard is from 0 to nrOfSymbolsOnCard - 1;
         return result;    
     }
+
+    // getCardIndexInSection(nrOfCard){
+
+    // WORKS FINE!!!!! TESTED !!!! Just above version is better for performance
+    // where below is better for readebility. In this case this alg is not called too often, 
+    //computers are fast, so perhaps it is even better
+
+    //     const getIndexInSection = (nrOfSymbolsOnCard, nrOfCard, isFirstCall) => {
+    //         if (nrOfCard < nrOfSymbolsOnCard) return nrOfCard % nrOfSymbolsOnCard;
+    //         const nrOfSymbolsNext = isFirstCall ? nrOfSymbolsOnCard - 1 : nrOfSymbolsOnCard;
+    //         return getIndexInSection(nrOfSymbolsNext, nrOfCard - nrOfSymbolsOnCard, false)
+    //     }
+    //     return getIndexInSection(this.nrOfSymbolsOnCard, nrOfCard, true);
+    // }
 
     getPossibleSymbolsAtSectionIndex(colSectionNr) {
         if (colSectionNr >= this.nrOfSymbolsOnCard || colSectionNr < 0) throw new Error(this.errors.SECTION_INDEX_INVALID)
@@ -49,6 +66,7 @@ class DobbleSolution {
         const result = getArraySlice(allSymbols, startIndex, endIndex); // include 0, not include nrOfSymbolsOnCard    
         return result;
     }
+
 
     shiftArray(arr, nrOfElements) {
         const correctedNrOfElements = nrOfElements % arr.length;
@@ -82,16 +100,19 @@ class DobbleSolution {
     getOrderedSymbolsForSection(rowSectionNr, colSectionNr) {
         const possibleSymbolsAtIndex = this.getPossibleSymbolsAtSectionIndex(colSectionNr);
         const orderedSymbols = this.orderSymbols(possibleSymbolsAtIndex, rowSectionNr, colSectionNr);
-        const orderedSymbolsAtIndex = orderedSymbols[rowSectionNr];
+        const cardIndexInSection = this.getCardIndexInSection(rowSectionNr);
+        const orderedSymbolsAtIndex = orderedSymbols[cardIndexInSection];
         console.log({name: 'getOrderedSymbolsForSection', rowSectionNr, colSectionNr, possibleSymbolsAtIndex, orderedSymbols, orderedSymbolsAtIndex})
-        return orderedSymbolsAtIndex;
+        return Array.isArray(orderedSymbolsAtIndex) ? orderedSymbolsAtIndex : [orderedSymbolsAtIndex];
     }
 
     generateCardSymbol(nrOfSymbol, nrOfCard) {
         const rowSectionNr = this.getRowSectionNr(nrOfCard)
         const colSectionNr = nrOfSymbol;
         const indexInSection = this.getCardIndexInSection(nrOfCard);
-        const orderedSymbolsInSection = this.getOrderedSymbolsForSection(rowSectionNr, colSectionNr);
+        const possibleSymbolsAtIndex = this.getPossibleSymbolsAtSectionIndex(colSectionNr);
+        // const orderedSymbolsInSection = this.getOrderedSymbolsForSection(rowSectionNr, colSectionNr);
+        const orderedSymbolsInSection = this.orderSymbols(possibleSymbolsAtIndex, rowSectionNr, colSectionNr);
         console.log({
             name: 'generateCardSymbol',
             nrOfCard,
@@ -106,10 +127,10 @@ class DobbleSolution {
         const result = getArrayOfNull(this.nrOfSymbolsOnCard).reduce((acc, _, symbolNr) => {
             const cardSymbol = this.generateCardSymbol(symbolNr, nrOfCard)
             console.log('symbolNr', symbolNr, cardSymbol);
-            acc.push(cardSymbol || [])
+            acc.push(cardSymbol)
             return acc;
         }, [])
-        console.log({name:'generateCard', result})
+        console.log({name:'generateCard', nrOfCard, result})
         return result.flat();
     }
 
