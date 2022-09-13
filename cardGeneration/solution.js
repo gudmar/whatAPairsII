@@ -80,8 +80,8 @@ class DobbleSolution {
     }
 
     orderSymbols(symbols, cardNr, symbolOnCardNr) {  // NOT EXECTLY WHAT WAS WANTED
-            if (cardNr >= 0 && cardNr < this.nrOfSymbolsOnCard && symbolOnCardNr === 0) return [getArray(0, this.nrOfSymbolsOnCard), ...getArrayOfSameElements(this.nrOfSymbolsOnCard - 1, 0)]; // 1,1 section
-            if (symbolOnCardNr === 0) return getArrayOfSameElements(symbols.length - 1, symbols[this.getRowSectionNr(cardNr)]);
+            if (cardNr >= 0 && cardNr < this.nrOfSymbolsOnCard && symbolOnCardNr === 0) return [getArray(0, this.nrOfSymbolsOnCard), ...getArrayOfSameElements(this.nrOfSymbolsOnCard - 1, [0])]; // 1,1 section
+            if (symbolOnCardNr === 0) return getArrayOfSameElements(symbols.length - 1, [symbols[this.getRowSectionNr(cardNr)]]);
             if (cardNr >= 0 && cardNr < this.nrOfSymbolsOnCard) {
                 const resultArr = getArrayOfSameElements(this.nrOfSymbolsOnCard, []);
                 resultArr[symbolOnCardNr] = symbols;
@@ -97,26 +97,28 @@ class DobbleSolution {
         return result;
     }
 
-    getOrderedSymbolsForSection(rowSectionNr, colSectionNr) {
-        const possibleSymbolsAtIndex = this.getPossibleSymbolsAtSectionIndex(colSectionNr);
-        const orderedSymbols = this.orderSymbols(possibleSymbolsAtIndex, rowSectionNr, colSectionNr);
-        const cardIndexInSection = this.getCardIndexInSection(rowSectionNr);
-        const orderedSymbolsAtIndex = orderedSymbols[cardIndexInSection];
-        console.log({name: 'getOrderedSymbolsForSection', rowSectionNr, colSectionNr, possibleSymbolsAtIndex, orderedSymbols, orderedSymbolsAtIndex})
-        return Array.isArray(orderedSymbolsAtIndex) ? orderedSymbolsAtIndex : [orderedSymbolsAtIndex];
-    }
+    // getOrderedSymbolsForSection(rowSectionNr, colSectionNr) {
+    //     // !!!! Poorly tested !!! rowSectionNr is cardIndex 
+    //     // This function is a candidate for removal
+    //     const possibleSymbolsAtIndex = this.getPossibleSymbolsAtSectionIndex(colSectionNr);
+    //     const orderedSymbols = this.orderSymbols(possibleSymbolsAtIndex, rowSectionNr, colSectionNr);
+    //     const cardIndexInSection = this.getCardIndexInSection(rowSectionNr);
+    //     const orderedSymbolsAtIndex = orderedSymbols[cardIndexInSection];
+    //     console.log({name: 'getOrderedSymbolsForSection', rowSectionNr, colSectionNr, possibleSymbolsAtIndex, orderedSymbols, orderedSymbolsAtIndex})
+    //     return Array.isArray(orderedSymbolsAtIndex) ? orderedSymbolsAtIndex : [orderedSymbolsAtIndex];
+    // }
 
     generateCardSymbol(nrOfSymbol, nrOfCard) {
         const rowSectionNr = this.getRowSectionNr(nrOfCard)
         const colSectionNr = nrOfSymbol;
         const indexInSection = this.getCardIndexInSection(nrOfCard);
         const possibleSymbolsAtIndex = this.getPossibleSymbolsAtSectionIndex(colSectionNr);
-        // const orderedSymbolsInSection = this.getOrderedSymbolsForSection(rowSectionNr, colSectionNr);
-        const orderedSymbolsInSection = this.orderSymbols(possibleSymbolsAtIndex, rowSectionNr, colSectionNr);
+        const orderedSymbolsInSection = this.orderSymbols(possibleSymbolsAtIndex, nrOfCard, colSectionNr); // 5 failed
         console.log({
             name: 'generateCardSymbol',
             nrOfCard,
             nrOfSymbol,
+            possibleSymbolsAtIndex,
             rowSectionNr, colSectionNr, indexInSection, orderedSymbolsInSection,
             result: orderedSymbolsInSection
         })
