@@ -27,6 +27,13 @@ class DobbleSolution {
         this._errors = val;
     }
 
+    get nrOfSymbols() {
+        return this.nrOfSymbolsOnCard * (this.nrOfSymbolsOnCard -1)
+    }
+    get nrOfCards() {
+        return this.nrOfSymbols;
+    }
+
     getRowSectionNr(nrOfCard){
         if (nrOfCard < this.nrOfSymbolsOnCard) return 0;
         const getResultForNextSection = (cardNr, nestingLevel) => {
@@ -153,7 +160,18 @@ class DobbleSolution {
         return result.flat();
     }
 
-
+    generateSolution() {
+        const solution = [];
+        for(let cardNr = 0; cardNr < this.nrOfCards; cardNr++) {
+            const nextCard = this.generateCard(cardNr)
+            solution.push(nextCard)
+        }
+        console.log({
+            name: 'finalSolution',
+            solution,
+        })
+        return solution;
+    }
 
 
 }

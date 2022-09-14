@@ -1,4 +1,5 @@
 import { toHaveTheSameElements } from "../../testMatchers.js"
+import { isSolutionValid } from "../validation.js"
 import DobbleSolution from "../solution.js"
 expect.extend({toHaveTheSameElements})
 
@@ -544,8 +545,13 @@ describe('Testing DobbleSolution class', () => {
             const solution = new DobbleSolution(4);
             expect(solution.generateCard(12)).toEqual([3, 6, 8, 10])
         })
-
-
+    });
+    describe('Testing generateSolution', () => {
+        it('Should return a valid solution for 2 symbols on a card', () => {
+            const solution = new DobbleSolution(5);
+            const result = solution.generateSolution();
+            expect(isSolutionValid(result)).toBe(true);
+        })
     })
 
 
