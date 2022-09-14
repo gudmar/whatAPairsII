@@ -16,13 +16,21 @@ describe('Testing DobbleSolution class', () => {
             const solution = new DobbleSolution(4);
             expect(solution.getRowSectionNr(4)).toBe(1)
         })     
+        it('Should return 1 if nrOfSymbolsOnCard is 4 and nrOfCard is 6', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.getRowSectionNr(4)).toBe(1)
+        }) 
         it('Should return 2 if nrOfSymbolsOnCard is 4 and nrOfCard is 7', () => {
             const solution = new DobbleSolution(4);
             expect(solution.getRowSectionNr(7)).toBe(2)
         })   
-        it('Should return 2 if nrOfSymbolsOnCard is 4 and nrOfCard is 10', () => {
+        it('Should return 2 if nrOfSymbolsOnCard is 4 and nrOfCard is 9', () => {
             const solution = new DobbleSolution(4);
-            expect(solution.getRowSectionNr(10)).toBe(2)
+            expect(solution.getRowSectionNr(7)).toBe(2)
+        }) 
+        it('Should return 3 if nrOfSymbolsOnCard is 4 and nrOfCard is 10', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.getRowSectionNr(10)).toBe(3)
         }) 
     });
     describe('Testing getCardIndexInSection', () => {
@@ -130,6 +138,109 @@ describe('Testing DobbleSolution class', () => {
             const arr = [0,1,2,3,4,5];
             expect(solution.shiftArray(arr, 6)).toEqual([0,1,2,3,4,5])
         })
+    })
+    describe('Testing getMultipliedOffset', () => {
+        it('Should throw in case cardNr < nrOfSymbolsOnCard', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 3;
+            const symbolOnCardNr = 3;
+            const tested = () => solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = solution.errors.CARD_INDEX_TOO_SMALL('getMultipliedOffset');
+            expect(tested).toThrow(expected);
+        })
+        it('Should throw in case symbolOnCardNr is < 1', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 4;
+            const symbolOnCardNr = 0;
+            const tested = () => solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = solution.errors.SYMBOL_INDEX_TOO_SMALL('getMultipliedOffset');
+            expect(tested).toThrow(expected);
+        })
+        it('Should return 0 for cardNr 4 symbolOnCardNr 1, nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 4;
+            const symbolOnCardNr = 1;
+            const tested = solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = 0;
+            expect(tested).toBe(expected);
+        })
+        it('Should return 0 for cardNr 8 symbolOnCardNr 1, nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 8;
+            const symbolOnCardNr = 1;
+            const tested = solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = 0;
+            expect(tested).toBe(expected);
+        })
+        it('Should return 0 for cardNr 4 symbolOnCardNr 2, nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 4;
+            const symbolOnCardNr = 2;
+            const tested = solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = 0;
+            expect(tested).toBe(expected);
+        })
+        it('Should return 0 for cardNr 4 symbolOnCardNr 3, nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 4;
+            const symbolOnCardNr = 3;
+            const tested = solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = 0;
+            expect(tested).toBe(expected);
+        })
+        it('Should return 1 for cardNr 7 symbolOnCardNr 2, nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 7;
+            const symbolOnCardNr = 2;
+            const tested = solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = 1;
+            expect(tested).toBe(expected);
+        })
+        it('Should return 1 for cardNr 8 symbolOnCardNr 2, nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 8;
+            const symbolOnCardNr = 2;
+            const tested = solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = 1;
+            expect(tested).toBe(expected);
+        })
+        it('Should return 2 for cardNr 8 symbolOnCardNr 3, nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 8;
+            const symbolOnCardNr = 3;
+            const tested = solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = 2;
+            expect(tested).toBe(expected);
+        })
+        it('Should return 2 for cardNr 10 symbolOnCardNr 2, nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 10;
+            const symbolOnCardNr = 2;
+            const tested = solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = 2;
+            expect(tested).toBe(expected);
+        })
+        it('Should return 2 for cardNr 12 symbolOnCardNr 2, nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 12;
+            const symbolOnCardNr = 2;
+            const tested = solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = 2;
+            expect(tested).toBe(expected);
+        })
+        it('Should return 4 for cardNr 11 symbolOnCardNr 3, nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            const nrOfCard = 10;
+            const symbolOnCardNr = 3;
+            const tested = solution.getMultipliedOffset(nrOfCard, symbolOnCardNr);
+            const expected = 4;
+            expect(tested).toBe(expected);
+        })
+
+
+
+
+
     })
     describe('Testing orderSymbols', () => {
         it('Should return [ [ 0, 1, 2, 3 ], 0, 0, 0 ] if nrOfSymbolsOnCard is 4 and card 0 symbol 0 are given', () => {
@@ -311,12 +422,12 @@ describe('Testing DobbleSolution class', () => {
         // Testing 3 row section, 2 symbol
         // ===================================================
 
-        it('Should return [[8],[9],[7]] in case of 10 row section, 2 symbols', () => {
+        it('Should return [[12],[10],[11]] in case of nrOfCard 10, 2 symbols', () => {
             const solution = new DobbleSolution(4);
-            const symbols = [7,8,9];
+            const symbols = [10,11,12];
             const nrOfCard = 10;
             const nrOfSection = 2;
-            const expected = [[8],[9],[7]];
+            const expected = [[12],[10],[11]];
             const result = solution.orderSymbols(symbols, nrOfCard, nrOfSection);
             expect(result).toEqual(expected);                         
         })
@@ -325,12 +436,12 @@ describe('Testing DobbleSolution class', () => {
         // Testing 3 row section, 3 symbol
         // ===================================================
 
-        it('Should return [[12],[10],[11]] in case of 10 row section, 3 symbols', () => {
+        it('Should return [[12],[10],[11]] in case of 10 card, 3 symbol, 4 symbols on a card', () => {
             const solution = new DobbleSolution(4);
             const symbols = [10,11,12];
             const nrOfCard = 10;
             const nrOfSection = 3;
-            const expected = [[12],[10],[11]];
+            const expected = [[11],[12],[10]];
             const result = solution.orderSymbols(symbols, nrOfCard, nrOfSection);
             expect(result).toEqual(expected);                         
         })
@@ -363,11 +474,11 @@ describe('Testing DobbleSolution class', () => {
             const solution = new DobbleSolution(4);
             expect(solution.generateCardSymbol(0,0)).toEqual([0,1,2,3]);
         })
-        it('(F exp: [], rec: [4,5,6]) Should return [] in case nrOfSymbol is 1 and card is 0 and nrOfSymbolsOnCard is 4', () => {
+        it('Should return [] in case nrOfSymbol is 1 and card is 0 and nrOfSymbolsOnCard is 4', () => {
             const solution = new DobbleSolution(4);
             expect(solution.generateCardSymbol(1,0)).toEqual([]);
         })
-        it('(F exp[1] rec:1) Should return [1] in case nrOfSymbol is 0 and card is 5 and nrOfSymbolsOnCard is 4', () => {
+        it('Should return [1] in case nrOfSymbol is 0 and card is 5 and nrOfSymbolsOnCard is 4', () => {
             const solution = new DobbleSolution(4);
             expect(solution.generateCardSymbol(0,5)).toEqual([1]);
         })
@@ -377,31 +488,59 @@ describe('Testing DobbleSolution class', () => {
             expect(solution.generateCardSymbol(1,5)).toEqual([5]);
         })
 
-        it('(F exp[9] rec:undef)Should return [9] in case nrOfSymbol is 3 and card is 8 and nrOfSymbolsOnCard is 4', () => {
+        it('Should return [9] in case nrOfSymbol is 3 and card is 8 and nrOfSymbolsOnCard is 4', () => {
             const solution = new DobbleSolution(4);
             expect(solution.generateCardSymbol(3,8)).toEqual([10]);
+        })
+        it('Should return [11] in case nrOfSymbol is 3 and card is 10 and nrOfSymbolsOnCard is 4', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCardSymbol(3,10)).toEqual([11]);
         })
 
     })
 
     describe('Testing generateCard:', () => {
-        // it('Should generate [0,1,2,3] for nrOfSymbolsInCard 4 and cardNr === 0', () => {
-        //     const solution = new DobbleSolution(4);
-        //     expect(solution.generateCard(0)).toEqual([0, 1, 2, 3])
-        // })
-        // it('Should generate [0,4,5,6] for nrOfSymbolsInCard 4 and cardNr === 1', () => {
-        //     const solution = new DobbleSolution(4);
-        //     expect(solution.generateCard(1)).toEqual([0, 4, 5, 6])
-        // })
-        // it('Should generate [0,10,11,12] for nrOfSymbolsInCard 4 and cardNr === 3', () => {
-        //     const solution = new DobbleSolution(4);
-        //     expect(solution.generateCard(3)).toEqual([0, 10, 11, 12])
-        // })
-        // 1 section
-        // it('Should generate [1,4, 7, 10] for nrOfSymbolsInCard 4 and cardNr === 4', () => {
-        //     const solution = new DobbleSolution(4);
-        //     expect(solution.generateCard(5)).toEqual([1,4, 7, 10])
-        // })
+    //     it('Should generate [0,1,2,3] for nrOfSymbolsInCard 4 and cardNr === 0', () => {
+    //         const solution = new DobbleSolution(4);
+    //         expect(solution.generateCard(0)).toEqual([0, 1, 2, 3])
+    //     })
+    //     it('Should generate [0,4,5,6] for nrOfSymbolsInCard 4 and cardNr === 1', () => {
+    //         const solution = new DobbleSolution(4);
+    //         expect(solution.generateCard(1)).toEqual([0, 4, 5, 6])
+    //     })
+    //     it('Should generate [0,10,11,12] for nrOfSymbolsInCard 4 and cardNr === 3', () => {
+    //         const solution = new DobbleSolution(4);
+    //         expect(solution.generateCard(3)).toEqual([0, 10, 11, 12])
+    //     })
+    //     // 1 section
+    //     it('Should generate [1, 5, 8, 11] for nrOfSymbolsInCard 4 and cardNr === 5', () => {
+    //         const solution = new DobbleSolution(4);
+    //         expect(solution.generateCard(5)).toEqual([1, 5, 8, 11])
+    //     })
+    //     it('Should generate [1, 6, 7, 18] for nrOfSymbolsInCard 4 and cardNr === 6', () => {
+    //         const solution = new DobbleSolution(4);
+    //         expect(solution.generateCard(6)).toEqual([1, 6, 9, 12])
+    //     })
+    //     // 2 section
+    //     it('Should generate [2, 4, 8, 12] for nrOfSymbolsInCard 4 and cardNr === 7', () => {
+    //         const solution = new DobbleSolution(4);
+    //         expect(solution.generateCard(7)).toEqual([2, 4, 8, 12])
+    //     })
+    //     it('Should generate [2, 5, 9, 10] for nrOfSymbolsInCard 4 and cardNr === 8', () => {
+    //         const solution = new DobbleSolution(4);
+    //         expect(solution.generateCard(8)).toEqual([2, 5, 9, 10])
+    //     })
+    //     it('Should generate [2, 6, 7, 11] for nrOfSymbolsInCard 4 and cardNr === 9', () => {
+    //         const solution = new DobbleSolution(4);
+    //         expect(solution.generateCard(9)).toEqual([2, 6, 7, 11])
+    //     })
+
+        // 3 section
+        it('Should generate [3, 4, 9, 11] for nrOfSymbolsInCard 4 and cardNr === 10', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(10)).toEqual([3, 4, 9, 11])
+        })
+
 
     })
 
