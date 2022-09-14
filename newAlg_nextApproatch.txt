@@ -67,7 +67,7 @@ CardGenerator(nrOfSymbolsOnCard);
 
 1) For each card generateCard(NrOfCard);
 
-2) generateCard(nrOfCard) alg:
++ 2) generateCard(nrOfCard) alg:
 For each symbol of nrOfSymbolsOnCard generateCardSymbol(nrOfSymbol, nrOfCard);
 
 + 3) generateCardSymbol(nrOfSymbol, nrOfCard) algorithm:
