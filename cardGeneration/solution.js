@@ -109,9 +109,9 @@ class DobbleSolution {
             if (symbolOnCardNr === 1) return symbols.map(_ => [_]);
             const multipliedOffset = this.getMultipliedOffset(cardNr, symbolOnCardNr);
             const result = this.shiftArray(symbols, multipliedOffset).map(_=>[_]);
-            console.log({
-                functionName: 'orderSymbols', symbols, cardNr, symbolOnCardNr, multipliedOffset, result,
-            })
+            // console.log({
+            //     functionName: 'orderSymbols', symbols, cardNr, symbolOnCardNr, multipliedOffset, result,
+            // })
         return result;
     }
 
@@ -146,11 +146,10 @@ class DobbleSolution {
     generateCard(nrOfCard) {
         const result = getArrayOfNull(this.nrOfSymbolsOnCard).reduce((acc, _, symbolNr) => {
             const cardSymbol = this.generateCardSymbol(symbolNr, nrOfCard)
-            console.log('symbolNr', symbolNr, cardSymbol);
             acc.push(cardSymbol)
             return acc;
         }, [])
-        console.log({name:'generateCard', nrOfCard, result})
+        // console.log({name:'generateCard', nrOfCard, result})
         return result.flat();
     }
 

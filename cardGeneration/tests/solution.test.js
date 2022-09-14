@@ -500,45 +500,49 @@ describe('Testing DobbleSolution class', () => {
     })
 
     describe('Testing generateCard:', () => {
-    //     it('Should generate [0,1,2,3] for nrOfSymbolsInCard 4 and cardNr === 0', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.generateCard(0)).toEqual([0, 1, 2, 3])
-    //     })
-    //     it('Should generate [0,4,5,6] for nrOfSymbolsInCard 4 and cardNr === 1', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.generateCard(1)).toEqual([0, 4, 5, 6])
-    //     })
-    //     it('Should generate [0,10,11,12] for nrOfSymbolsInCard 4 and cardNr === 3', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.generateCard(3)).toEqual([0, 10, 11, 12])
-    //     })
-    //     // 1 section
-    //     it('Should generate [1, 5, 8, 11] for nrOfSymbolsInCard 4 and cardNr === 5', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.generateCard(5)).toEqual([1, 5, 8, 11])
-    //     })
-    //     it('Should generate [1, 6, 7, 18] for nrOfSymbolsInCard 4 and cardNr === 6', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.generateCard(6)).toEqual([1, 6, 9, 12])
-    //     })
-    //     // 2 section
-    //     it('Should generate [2, 4, 8, 12] for nrOfSymbolsInCard 4 and cardNr === 7', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.generateCard(7)).toEqual([2, 4, 8, 12])
-    //     })
-    //     it('Should generate [2, 5, 9, 10] for nrOfSymbolsInCard 4 and cardNr === 8', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.generateCard(8)).toEqual([2, 5, 9, 10])
-    //     })
-    //     it('Should generate [2, 6, 7, 11] for nrOfSymbolsInCard 4 and cardNr === 9', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.generateCard(9)).toEqual([2, 6, 7, 11])
-    //     })
+        it('Should generate [0,1,2,3] for nrOfSymbolsInCard 4 and cardNr === 0', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(0)).toEqual([0, 1, 2, 3])
+        })
+        it('Should generate [0,4,5,6] for nrOfSymbolsInCard 4 and cardNr === 1', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(1)).toEqual([0, 4, 5, 6])
+        })
+        it('Should generate [0,10,11,12] for nrOfSymbolsInCard 4 and cardNr === 3', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(3)).toEqual([0, 10, 11, 12])
+        })
+        // 1 section
+        it('Should generate [1, 5, 8, 11] for nrOfSymbolsInCard 4 and cardNr === 5', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(5)).toEqual([1, 5, 8, 11])
+        })
+        it('Should generate [1, 6, 7, 18] for nrOfSymbolsInCard 4 and cardNr === 6', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(6)).toEqual([1, 6, 9, 12])
+        })
+        // 2 section
+        it('Should generate [2, 4, 8, 12] for nrOfSymbolsInCard 4 and cardNr === 7', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(7)).toEqual([2, 4, 8, 12])
+        })
+        it('Should generate [2, 5, 9, 10] for nrOfSymbolsInCard 4 and cardNr === 8', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(8)).toEqual([2, 5, 9, 10])
+        })
+        it('Should generate [2, 6, 7, 11] for nrOfSymbolsInCard 4 and cardNr === 9', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(9)).toEqual([2, 6, 7, 11])
+        })
 
         // 3 section
         it('Should generate [3, 4, 9, 11] for nrOfSymbolsInCard 4 and cardNr === 10', () => {
             const solution = new DobbleSolution(4);
             expect(solution.generateCard(10)).toEqual([3, 4, 9, 11])
+        })
+        it('Should generate [3, 6, 8, 10] for nrOfSymbolsInCard 4 and cardNr === 12', () => {
+            const solution = new DobbleSolution(4);
+            expect(solution.generateCard(12)).toEqual([3, 6, 8, 10])
         })
 
 
