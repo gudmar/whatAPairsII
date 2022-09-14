@@ -14,7 +14,9 @@ class DobbleSolution {
         this.allSymbols = getAllSymbols(nrOfSymbolsOnCard);
         this.possibleNrOfCards = (nrOfSymbolsOnCard) * (nrOfSymbolsOnCard - 1) + 1;
         this.errors = {
-            SECTION_INDEX_INVALID: 'Section index outside range. Nr of sections i equal to nr of symbols on a card starting from 0'
+            SECTION_INDEX_INVALID: 'Section index outside range. Nr of sections i equal to nr of symbols on a card starting from 0',
+            CARD_INDEX_TOO_SMALL: functionName => `Card index is too small to be handled in ${functionName}`,
+            SYMBOL_INDEX_TOO_SMALL: functionName => `Symbol index too small to be handled in ${functionName}`,
         }
     }
 
@@ -27,34 +29,36 @@ class DobbleSolution {
 
     getRowSectionNr(nrOfCard){
         if (nrOfCard < this.nrOfSymbolsOnCard) return 0;
-        // const result = Math.floor((nrOfCard + 1 - this.nrOfSymbolsOnCard) / this.nrOfSymbolsOnCard); 
-        const result = Math.floor((nrOfCard + 1) / this.nrOfSymbolsOnCard); 
-        // nrOfCard + 1, because nrOfCard is from 0 to nrOfSymbolsOnCard - 1;
-        return result;    
-    }
-
-    getCardIndexInSection(nrOfCard){
-        if (nrOfCard < this.nrOfSymbolsOnCard) return nrOfCard % this.nrOfSymbolsOnCard;
-        const nrOfCardWithoutZeroSection = nrOfCard - this.nrOfSymbolsOnCard;
-        const nrOfSection = Math.floor(nrOfCardWithoutZeroSection / (this.nrOfSymbolsOnCard - 1));
-        return nrOfCardWithoutZeroSection - nrOfSection * (this.nrOfSymbolsOnCard - 1)
-        const result = Math.floor((nrOfCard - this.nrOfSymbolsOnCard) % this.nrOfSymbolsOnCard); // nrOfCard + 1, because nrOfCard is from 0 to nrOfSymbolsOnCard - 1;
-        return result;    
+        const getResultForNextSection = (cardNr, nestingLevel) => {
+            if (cardNr < 0) throw new Error('There is a mistake in getRowSectionNr')
+            if (cardNr < this.nrOfSymbolsOnCard) return nestingLevel;
+            return getResultForNextSection(cardNr - (this.nrOfSymbolsOnCard - 1), nestingLevel + 1);
+        }
+        return getResultForNextSection(nrOfCard - this.nrOfSymbolsOnCard + 1, 1 )
     }
 
     // getCardIndexInSection(nrOfCard){
+    //     if (nrOfCard < this.nrOfSymbolsOnCard) return nrOfCard % this.nrOfSymbolsOnCard;
+    //     const nrOfCardWithoutZeroSection = nrOfCard - this.nrOfSymbolsOnCard;
+    //     const nrOfSection = Math.floor(nrOfCardWithoutZeroSection / (this.nrOfSymbolsOnCard - 1));
+    //     return nrOfCardWithoutZeroSection - nrOfSection * (this.nrOfSymbolsOnCard - 1)
+    //     const result = Math.floor((nrOfCard - this.nrOfSymbolsOnCard) % this.nrOfSymbolsOnCard); // nrOfCard + 1, because nrOfCard is from 0 to nrOfSymbolsOnCard - 1;
+    //     return result;    
+    // }
+
+    getCardIndexInSection(nrOfCard){
 
     // WORKS FINE!!!!! TESTED !!!! Just above version is better for performance
     // where below is better for readebility. In this case this alg is not called too often, 
     //computers are fast, so perhaps it is even better
 
-    //     const getIndexInSection = (nrOfSymbolsOnCard, nrOfCard, isFirstCall) => {
-    //         if (nrOfCard < nrOfSymbolsOnCard) return nrOfCard % nrOfSymbolsOnCard;
-    //         const nrOfSymbolsNext = isFirstCall ? nrOfSymbolsOnCard - 1 : nrOfSymbolsOnCard;
-    //         return getIndexInSection(nrOfSymbolsNext, nrOfCard - nrOfSymbolsOnCard, false)
-    //     }
-    //     return getIndexInSection(this.nrOfSymbolsOnCard, nrOfCard, true);
-    // }
+        const getIndexInSection = (nrOfSymbolsOnCard, nrOfCard, isFirstCall) => {
+            if (nrOfCard < nrOfSymbolsOnCard) return nrOfCard % nrOfSymbolsOnCard;
+            const nrOfSymbolsNext = isFirstCall ? nrOfSymbolsOnCard - 1 : nrOfSymbolsOnCard;
+            return getIndexInSection(nrOfSymbolsNext, nrOfCard - nrOfSymbolsOnCard, false)
+        }
+        return getIndexInSection(this.nrOfSymbolsOnCard, nrOfCard, true);
+    }
 
     getPossibleSymbolsAtSectionIndex(colSectionNr) {
         if (colSectionNr >= this.nrOfSymbolsOnCard || colSectionNr < 0) throw new Error(this.errors.SECTION_INDEX_INVALID)
@@ -79,6 +83,20 @@ class DobbleSolution {
 
     }
 
+    getMultipliedOffset(cardNr, symbolOnCardNr) {
+        if (cardNr < this.nrOfSymbolsOnCard) throw new Error(this.errors.CARD_INDEX_TOO_SMALL('getMultipliedOffset'));
+        if (symbolOnCardNr < 1) throw new Error(this.errors.SYMBOL_INDEX_TOO_SMALL('getMultipliedOffset'));
+        const cardSection = this.getRowSectionNr(cardNr);
+        const cardSectionOffset = 1; // due to fact, that for section 0 and 1 already solved. A pattern starts from index === 2;
+        const cardSymbolOffset = 1; // section 0 and 1 already solved;
+        const multipliedOffset = (cardSection - cardSectionOffset) * (symbolOnCardNr - cardSymbolOffset);
+        // console.log({
+        //     functionName: 'getMultipliedOffset',
+        //     cardNr, symbolOnCardNr, cardSection, result: multipliedOffset,
+        // })
+        return multipliedOffset;
+    }
+
     orderSymbols(symbols, cardNr, symbolOnCardNr) {  // NOT EXECTLY WHAT WAS WANTED
             if (cardNr >= 0 && cardNr < this.nrOfSymbolsOnCard && symbolOnCardNr === 0) return [getArray(0, this.nrOfSymbolsOnCard), ...getArrayOfSameElements(this.nrOfSymbolsOnCard - 1, [0])]; // 1,1 section
             if (symbolOnCardNr === 0) return getArrayOfSameElements(symbols.length - 1, [symbols[this.getRowSectionNr(cardNr)]]);
@@ -89,11 +107,11 @@ class DobbleSolution {
                 return cardNr === symbolOnCardNr ? symbols : [];
             }
             if (symbolOnCardNr === 1) return symbols.map(_ => [_]);
-            const cardSection = this.getRowSectionNr(cardNr);
-            const cardSectionOffset = 1; // due to fact, that for section 0 and 1 already solved. A pattern starts from index === 2;
-            const cardSymbolOffset = 1; // section 0 and 1 already solved;
-            const multipliedOffset = (cardSection - cardSectionOffset) * (symbolOnCardNr - cardSymbolOffset);
+            const multipliedOffset = this.getMultipliedOffset(cardNr, symbolOnCardNr);
             const result = this.shiftArray(symbols, multipliedOffset).map(_=>[_]);
+            console.log({
+                functionName: 'orderSymbols', symbols, cardNr, symbolOnCardNr, multipliedOffset, result,
+            })
         return result;
     }
 
@@ -114,14 +132,14 @@ class DobbleSolution {
         const indexInSection = this.getCardIndexInSection(nrOfCard);
         const possibleSymbolsAtIndex = this.getPossibleSymbolsAtSectionIndex(colSectionNr);
         const orderedSymbolsInSection = this.orderSymbols(possibleSymbolsAtIndex, nrOfCard, colSectionNr); // 5 failed
-        console.log({
-            name: 'generateCardSymbol',
-            nrOfCard,
-            nrOfSymbol,
-            possibleSymbolsAtIndex,
-            rowSectionNr, colSectionNr, indexInSection, orderedSymbolsInSection,
-            result: orderedSymbolsInSection
-        })
+        // console.log({
+        //     name: 'generateCardSymbol',
+        //     nrOfCard,
+        //     nrOfSymbol,
+        //     possibleSymbolsAtIndex,
+        //     rowSectionNr, colSectionNr, indexInSection, orderedSymbolsInSection,
+        //     result: orderedSymbolsInSection
+        // })
         return orderedSymbolsInSection[indexInSection]
     }
 
