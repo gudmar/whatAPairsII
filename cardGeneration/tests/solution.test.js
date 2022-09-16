@@ -446,30 +446,9 @@ describe('Testing DobbleSolution class', () => {
             const result = solution.orderSymbols(symbols, nrOfCard, nrOfSection);
             expect(result).toEqual(expected);                         
         })
-
-
-        // Seems to work. Should be tested with solutions above 4 sylmbols (this last scenarion), but must be tested from figher level, to make sure produces feasable solution
         
     })
-    // describe('Testing getOrderedSymbolsForSection:', () => {
-    //     it('Should return [0,1,2,3] for 0 section 0 card 4 symbolsOnCard', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.getOrderedSymbolsForSection(0,0)).toEqual([0,1,2,3]);
-    //     })
-    //     it('Should return [7,8,9] for 2 section 2 card 4 symbolsOnCard', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.getOrderedSymbolsForSection(2,2)).toEqual([7,8,9]);
-    //     })
-    //     it('Should return [] for 2 section 3 card 4 symbolsOnCard', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.getOrderedSymbolsForSection(2,3)).toEqual([]);
-    //     })
 
-    //     it('Should return [1] for 0 section 5 card 4 symbolsOnCard', () => {
-    //         const solution = new DobbleSolution(4);
-    //         expect(solution.getOrderedSymbolsForSection(5,0)).toEqual([1])
-    //     })
-    // })
     describe('Testing generateCardSymbol:', () => {
         it('Should return [0,1,2,3] in case nrOfSymbol is 0 and card is 0 and nrOfSymbolsOnCard is 4', () => {
             const solution = new DobbleSolution(4);
@@ -547,9 +526,64 @@ describe('Testing DobbleSolution class', () => {
         })
     });
     describe('Testing generateSolution', () => {
-        it('Should return a valid solution for 2 symbols on a card', () => {
-            const solution = new DobbleSolution(5);
+        it('Should return a valid solution for 3 symbols on a card', () => {
+            const solution = new DobbleSolution(3);
             const result = solution.generateSolution();
+            // console.log({
+            //     solution: result,
+            // })
+            expect(isSolutionValid(result)).toBe(true);
+        })
+        it('Should return a valid solution for 2 symbols on a card', () => {
+            const solution = new DobbleSolution(2);
+            const result = solution.generateSolution();
+            // console.log({
+            //     solution: result,
+            // })
+            expect(isSolutionValid(result)).toBe(true);
+        })
+        it('Should return a valid solution for 4 symbols on a card', () => {
+            const solution = new DobbleSolution(4);
+            const result = solution.generateSolution();
+            // console.log({
+            //     solution: result,
+            // })
+            expect(isSolutionValid(result)).toBe(true);
+        })
+        // For 5 false
+        it('Should return a valid solution for 6 symbols on a card', () => {
+            const solution = new DobbleSolution(6);
+            const result = solution.generateSolution();
+            // console.log({
+            //     solution: result,
+            // })
+            expect(isSolutionValid(result)).toBe(true);
+        })
+        // For 7 fail
+        it('Should return a valid solution for 8 symbols on a card', () => {
+            const solution = new DobbleSolution(8);
+            const result = solution.generateSolution();
+            // console.log({
+            //     solution: result,
+            // })
+            expect(isSolutionValid(result)).toBe(true);
+        })
+        // Like in algorithm description: fails for each solution that
+        // nrOfSymbolsOnCard !== primary + 1;
+        it('Should return a valid solution for 9 symbols on a card', () => {
+            const solution = new DobbleSolution(12);
+            const result = solution.generateSolution();
+            // console.log({
+            //     solution: result,
+            // })
+            expect(isSolutionValid(result)).toBe(true);
+        })
+        it('Should return a valid solution for 9 symbols on a card', () => {
+            const solution = new DobbleSolution(14);
+            const result = solution.generateSolution();
+            // console.log({
+            //     solution: result,
+            // })
             expect(isSolutionValid(result)).toBe(true);
         })
     })
