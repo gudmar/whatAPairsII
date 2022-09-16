@@ -10,6 +10,8 @@ const errors = {
 const reasons = {
     TOO_MANY_CONNECTIONS: 'Too many conections',
     NOT_ENOUGH_CONNECTIONS: 'Not enough connections',
+    CARDS_NOT_EQUAL: (cards) => `Cards ${JSON.stringify(cards)} have different length`,
+    SYMBOLS_REPEAT_DIFFERENT_TIMES:'Symbols repeat different nr of times'
 }
 
 const isPrimaryNumber = (nr) => {
@@ -77,10 +79,20 @@ const allSymbolsRepeatDesiredNrOfTimes = solution => {
     if (!Array.isArray(solution)) throw new Error(errors.ARG_NOT_ARRAY)
     const solutionSymbolCounter = new ArrayElementsCounter(solution.flat());
     const desiredNumberOfRepetitions = solution[0].length;
-    if (solution.some(card => card.length !== desiredNumberOfRepetitions)) return false;
+    const cardsWithNotEqualLenght = solution.filter(card => card.length !== desiredNumberOfRepetitions)
+    if (cardsWithNotEqualLenght > 0) return {
+        result: false, reason: reasons.CARDS_NOT_EQUAL(cardsWithNotEqualLenght)
+    }
+    // if (solution.some(card => card.length !== desiredNumberOfRepetitions)) return false;
     const symbolRepetitions = solutionSymbolCounter.values();
     const result = symbolRepetitions.every(nrOfRepetitions => nrOfRepetitions === desiredNumberOfRepetitions);
-    return symbolRepetitions.every(nrOfRepetitions => nrOfRepetitions === desiredNumberOfRepetitions);
+    console.log({
+        name: 'allSymbolsRepeatDesiredNrOfTims',
+        reason: reasons.SYMBOLS_REPEAT_DIFFERENT_TIMES,
+        repetitions: solutionSymbolCounter.getAll()
+    })
+    return result ? {result} : {result: false, reason: reasons.CARDS_NOT_EQUAL('')}
+    // return symbolRepetitions.every(nrOfRepetitions => nrOfRepetitions === desiredNumberOfRepetitions);
 }
 
 // const allCardsHaveEqualLength = (solution) => {
@@ -91,8 +103,20 @@ const allSymbolsRepeatDesiredNrOfTimes = solution => {
 const allCardsConnectedWithSilgleSymbol = solution => cardsConnectExactlyOnce(solution).length === 0;
 
 const isSolutionValid = solution => {
-    if (!allSymbolsRepeatDesiredNrOfTimes(solution)) return false;
-    return cardsConnectExactlyOnce(solution).length === 0
+    const symbolsRepetitionReport = allSymbolsRepeatDesiredNrOfTimes(solution);
+    // if (!symbolsRepetitionReport.result) console.log({
+    //     functionName: 'isSolutionValid',
+    //     symbolsRepetitionReport,
+    // })
+    if (!allSymbolsRepeatDesiredNrOfTimes(solution).result) return false;
+    const cardsRepetitions = cardsConnectExactlyOnce(solution);
+    // if (cardsRepetitions.length > 0) console.log({
+    //     functionName: 'isSolutionValid',
+    //     cardsRepetitions: cardsRepetitions.map(
+    //         card => JSON.stringify(card) + '\n'
+    //     )
+    // }, '\n');
+    return cardsRepetitions.length === 0
 }
 
 export {

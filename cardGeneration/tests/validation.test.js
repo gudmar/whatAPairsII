@@ -199,7 +199,7 @@ describe('Testing validation', () => {
                 [2, 5, 6],
                 [3, 4, 6]
             ];
-            expect(allSymbolsRepeatDesiredNrOfTimes(validSolution)).toBe(true)
+            expect(allSymbolsRepeatDesiredNrOfTimes(validSolution).result).toBe(true)
         })
         it('Should return false in case all cards are connected with exactly one symbol, but they do not repeat desired number of times', () => {
             const validSolution = [
@@ -210,7 +210,7 @@ describe('Testing validation', () => {
                 [1, 4, 5],
                 [2, 5, 6],
             ];
-            expect(allSymbolsRepeatDesiredNrOfTimes(validSolution)).toBe(false)
+            expect(allSymbolsRepeatDesiredNrOfTimes(validSolution).result).toBe(false)
         });
     })
     describe('Testing isSolutionValid', () => {

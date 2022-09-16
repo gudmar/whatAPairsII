@@ -28,7 +28,7 @@ class DobbleSolution {
     }
 
     get nrOfSymbols() {
-        return this.nrOfSymbolsOnCard * (this.nrOfSymbolsOnCard -1)
+        return this.nrOfSymbolsOnCard * (this.nrOfSymbolsOnCard -1) + 1
     }
     get nrOfCards() {
         return this.nrOfSymbols;
@@ -122,17 +122,6 @@ class DobbleSolution {
         return result;
     }
 
-    // getOrderedSymbolsForSection(rowSectionNr, colSectionNr) {
-    //     // !!!! Poorly tested !!! rowSectionNr is cardIndex 
-    //     // This function is a candidate for removal
-    //     const possibleSymbolsAtIndex = this.getPossibleSymbolsAtSectionIndex(colSectionNr);
-    //     const orderedSymbols = this.orderSymbols(possibleSymbolsAtIndex, rowSectionNr, colSectionNr);
-    //     const cardIndexInSection = this.getCardIndexInSection(rowSectionNr);
-    //     const orderedSymbolsAtIndex = orderedSymbols[cardIndexInSection];
-    //     console.log({name: 'getOrderedSymbolsForSection', rowSectionNr, colSectionNr, possibleSymbolsAtIndex, orderedSymbols, orderedSymbolsAtIndex})
-    //     return Array.isArray(orderedSymbolsAtIndex) ? orderedSymbolsAtIndex : [orderedSymbolsAtIndex];
-    // }
-
     generateCardSymbol(nrOfSymbol, nrOfCard) {
         const rowSectionNr = this.getRowSectionNr(nrOfCard)
         const colSectionNr = nrOfSymbol;
@@ -168,6 +157,7 @@ class DobbleSolution {
         }
         console.log({
             name: 'finalSolution',
+            nrOfCards: this.nrOfCards,
             solution,
         })
         return solution;
